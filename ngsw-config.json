@@ -1,0 +1,42 @@
+{
+    "index": "/index.html",
+    "assetGroups": [
+        {
+            "name": "app",
+            "installMode": "prefetch",
+            "resources": {
+                "files": [
+                    "/favicon.ico",
+                    "/index.html",
+                    "/*.css",
+                    "/*.js"
+                ]
+            }
+        },
+        {
+            "name": "assets",
+            "installMode": "lazy",
+            "updateMode": "prefetch",
+            "resources": {
+                "files": [
+                    "/assets/**"
+                ]
+            }
+        }
+    ],
+    "dataGroups": [
+        {
+          "name": "local-api",
+          "urls": [
+            "https://npm.scout-gps.ru:4873/**",
+            "https://vmgitlab01.scout-gps.ru:1443/**"
+          ],
+          "cacheConfig": {
+            "maxSize": 100,
+            "maxAge": "8h",
+            "timeout": "20u",
+            "strategy": "freshness"
+          }
+        }
+      ]
+}

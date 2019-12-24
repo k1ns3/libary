@@ -1,0 +1,171 @@
+<form [formGroup]="depTableFrom$">
+    <div class="filter-panel">
+        <div class="top">
+            <div class="filter">
+                <div class="header">
+                    <p>Filters by string background-color:</p>
+                </div>
+                <div class="labels">
+
+                    <label class="container">
+                        <input type="checkbox"
+                               formControlName="MultiVersionСheckboxState"
+                               (change)="onChangedCheckRed()" />
+                        Multiple versions
+                        <span class="checkmarkRed"></span>
+                    </label>
+                    <label class="container">
+                        <input type="checkbox"
+                               formControlName="NotLatestVersionСheckboxState"
+                               (change)="onChangedCheckOrange()" />
+                        Not latest
+                        <span class="checkmarkOrange"></span>
+                    </label>
+
+                    <label class="container">
+                        <input type="checkbox"
+                               formControlName="LatestVersionСheckboxState"
+                               (change)="onChangedCheckBlack()" />
+                        Ok
+                        <span class="checkmarkBlack"></span>
+                    </label>
+                    <button class="btn"
+                            (click)="onClickedClearedCheckboxColorFilter()"> - </button>
+                    <button class="btn"
+                            (click)="onClickedAddedCheckboxColorFilter()"> + </button>
+
+                </div>
+            </div>
+            <div class="searchPanel">
+                <div class="header">
+                    <p>Searching by:</p>
+                </div>
+                <div class="searchForm">
+                    <input class="searchInput"
+                           placeholder="Dependency Library"
+                           formControlName="SearchDepInput"
+                           (input)="onChangedSearchDepInput($event.target.value)" />
+                    <input class="searchInput second"
+                           placeholder="Project"
+                           formControlName="SearchProjectInput"
+                           (input)="onChangedSearchProjectInput($event.target.value)" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="header">
+            <p>Filters by source:</p>
+        </div>
+        <div class="labels">
+            <label class="container">
+                <input type="checkbox"
+                       formControlName="NPMСheckboxState"
+                       (change)="onChangedCheckNPM()" />
+                NPM
+                <span class="checkmarkRed"></span>
+            </label>
+
+            <label class="container">
+                <input type="checkbox"
+                       formControlName="NPMScoutСheckboxState"
+                       (change)="onChangedCheckNPMScout()" />
+                NPM Scout
+                <span class="checkmarkOrange"></span>
+            </label>
+
+            <label class="container">
+                <input type="checkbox"
+                       formControlName="GitLabСheckboxState"
+                       (change)="onChangedCheckGitlab()" />
+                Gitlab
+                <span class="checkmarkBlack"></span>
+            </label>
+
+            <button class="btn"
+                    (click)="onClickedClearedCheckboxSourceFilter()"> - </button>
+            <button class="btn"
+                    (click)="onClickedAddedCheckboxSourceFilter()"> + </button>
+        </div>
+        <div class="tableLegend">
+            <button class="btn"
+                    (click)="onClickedShowHiddenTableLegend()"> Table legend </button>
+            <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
+
+            <ng-template #showLegend>
+                <div>
+                    <ul class="list">
+                        <li class="item"><span class="dot darkRed"></span>Multiple versions. Not latest by the highest number in version.</li>
+                        <li class="item"><span class="dot red"></span>Multiple versions. Not latest by medium number in version.</li>
+                        <li class="item"><span class="dot lightRed"></span>Multiple versions. Not latest by the smallest number in version.</li>
+                        <li class="item"><span class="dot darkOrange"></span>Alone versions. Not latest by the highest number in version.</li>
+                        <li class="item"><span class="dot orange"></span>Alone versions. Not latest by medium number in version.</li>
+                        <li class="item"><span class="dot lightOrange"></span>Alone versions. Not latest by the smallest number in version.</li>
+                    </ul>
+                </div>
+            </ng-template>
+            <ng-template #hiddenLegend>
+                <div>
+                    <p>Please click on "Table legend" button for showing/hidden table legend.</p>
+                </div>
+            </ng-template>
+
+        </div>
+
+    </div>
+</form>
+
+<div class="dataTable">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Dependency Library</th>
+                <th>Version</th>
+                <th>Project</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <ng-container *ngFor="let items of dataTables$ | async">
+                <ng-container *ngIf="isVisibleSource(items)">
+                    <ng-container *ngIf="isVisibleColor(items)">
+                        <ng-container>
+                            <!-- Первая строка: dendency, первая version, первая library для первой version -->
+                            <tr>
+                                <td [attr.class]="getCss(items)"
+                                    [attr.rowspan]="items.depsLength">{{ items.libDep }}</td>
+                                <td [attr.class]="getCss(items)"
+                                    [attr.rowspan]="items.dep[0].libs.length">{{ items.dep[0].v }}</td>
+                                <td [attr.class]="getCss(items)">{{ items.dep[0].libs[0] }}</td>
+                            </tr>
+                            <!-- вторая строка: не первая version -->
+                            <ng-container *ngFor="let item of items.dep[0].libs; first as isFirst">
+                                <tr *ngIf="!isFirst">
+                                    <td [attr.class]="getCss(items)">{{ item }}</td>
+                                </tr>
+                            </ng-container>
+
+                            <ng-container *ngFor="let item of items.dep; first as isFirst">
+                                <tr *ngIf="!isFirst">
+                                    <td [attr.class]="getCss(items)"
+                                        [attr.rowspan]="item.libs.length">{{ item.v }}</td>
+                                    <td [attr.class]="getCss(items)">{{ item.libs[0] }}</td>
+
+                                </tr>
+
+                                <ng-container *ngIf="!isFirst">
+                                    <ng-container *ngFor="let lib of item.libs; first as isFirstLib">
+                                        <tr *ngIf="!isFirstLib">
+                                            <td [attr.class]="getCss(items)"> {{ lib }}</td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

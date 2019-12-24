@@ -1,0 +1,21 @@
+.btn{
+    margin-right: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    outline: 0;
+    background-color: black;
+    color: white;
+    border: none;
+    padding: 5px 10px 5px 10px;
+    &:hover{
+        background-color: #50abcc;
+    }
+    &:active{
+        background-color: orange;
+    }
+}
+    
+.my_graph{
+    height: 100vh;
+}
+    

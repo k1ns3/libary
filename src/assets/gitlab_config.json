@@ -1,0 +1,37 @@
+[
+    {
+        "name": "scout-start",
+        "id": 140,
+        "default_branch": "master"
+    },
+    {
+        "name": "scout-start (dev)",
+        "id": 140,
+        "default_branch": "dev"
+    },
+    {
+        "name": "Scout Jira Plugin",
+        "id": 146,
+        "default_branch": "master"
+    },
+    {
+        "name": "scout-online (dev)",
+        "id": 5,
+        "default_branch": "dev"
+    },
+    {
+        "name": "jms",
+        "id": 5,
+        "default_branch": "jms"
+    },
+    {
+        "name": "geofence-board",
+        "id": 5,
+        "default_branch": "geofence-board"
+    },
+    {
+        "name": "scout-validator (dev)",
+        "id": 151,
+        "default_branch": "dev"
+    }
+]

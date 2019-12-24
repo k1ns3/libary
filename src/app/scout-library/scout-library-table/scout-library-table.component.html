@@ -1,0 +1,106 @@
+<form [formGroup]="projectTableForm">
+    <div class="filter-panel">
+        <div class="top">
+            <div class="filter">
+                <div class="header">
+                    <p>Filters by source:</p>
+                </div>
+                <div class="labels">
+                    <label class="container">
+                        <input type="checkbox"
+                               formControlName="NPMСheckboxState"
+                               (change)="onChangedCheckNPM()" />
+                        NPM
+                        <span class="checkmarkRed"></span>
+                    </label>
+
+                    <label class="container">
+                        <input type="checkbox"
+                               formControlName="NPMScoutСheckboxState"
+                               (change)="onChangedCheckNPMScout()" />
+                        NPM Scout
+                        <span class="checkmarkOrange"></span>
+                    </label>
+
+                    <label class="container">
+                        <input type="checkbox"
+                               formControlName="GitLabСheckboxState"
+                               (change)="onChangedCheckGitlab()" />
+                        Gitlab
+                        <span class="checkmarkBlack"></span>
+                    </label>
+                    <button class="btn "
+                            (click)="onClickedClearedCheckboxSourceFilter()"> - </button>
+                    <button class="btn "
+                            (click)="onClickedAddedCheckboxSourceFilter()"> + </button>
+                </div>
+            </div>
+            <div class="searchPanel">
+                <div class="header">
+                    <p>Searching by:</p>
+                </div>
+                <div class="searchForm">
+                    <input class="searchInput"
+                           placeholder="Dependency Library"
+                           formControlName="SearchDepInput"
+                           (input)="onChangedSearchDepInput($event.target.value)" />
+
+                    <input class="searchInput second"
+                           placeholder="Project"
+                           formControlName="SearchProjectInput"
+                           (input)="onChangedSearchProjectInput($event.target.value)" />
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="tableLegend">
+        <button class="btn"
+                (click)="onClickedShowHiddenTableLegend()"> Table legend </button>
+        <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
+
+        <ng-template #showLegend>
+            <div>
+                <ul class="list">
+                    <li class="item"><span class="dot darkRed"></span>Not latest by the highest number in version.</li>
+                    <li class="item"><span class="dot red"></span>Not latest by medium number in version.</li>
+                    <li class="item"><span class="dot lightRed"></span>Not latest by the smallest number in version.</li>
+                </ul>
+            </div>
+        </ng-template>
+        <ng-template #hiddenLegend>
+            <div>
+                <p>Please click on "Table legend" button for showing/hidden table legend.</p>
+            </div>
+        </ng-template>
+
+    </div>
+</form>
+
+<div class="dataTable">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Project</th>
+                <th>Dependency library</th>
+                <th>Using version</th>
+                <th>Latest version</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <ng-container *ngFor="let items of dataTables$ | async">
+                <ng-container *ngIf="isVisibleSource(items)">
+                    <tr *ngFor="let _item of items.dependencies; let i = index">
+                        <td *ngIf="i < 1"
+                            [attr.rowspan]="items.dependencies.length">{{items.lib}}</td>
+                        <td [attr.class]="getCss(_item)">{{_item.depLib}}</td>
+                        <td [attr.class]="getCss(_item)">{{_item.useVersion}}</td>
+                        <td [attr.class]="getCss(_item)">{{_item.actualVersion}}</td>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

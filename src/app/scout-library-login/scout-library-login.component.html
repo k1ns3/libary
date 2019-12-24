@@ -1,0 +1,68 @@
+<div id="login">
+    <div id="header">
+        <h2>Log In</h2>
+    </div>
+    <div id="login_form">
+        <form [formGroup]="loginForm"
+              (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <input type="text"
+                       formControlName="username"
+                       placeholder="username"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': f.username?.errors }" />
+                <div *ngIf="f.username?.errors"
+                     class="invalid-feedback">
+                    <div class="invalid_text"
+                         *ngIf="f.username.errors.required">Username is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="password"
+                       formControlName="password"
+                       placeholder="password"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': f.password?.errors }" />
+                <div *ngIf="f.password?.errors"
+                     class="invalid-feedback">
+                    <div class="invalid_text"
+                         *ngIf="f.password?.errors.required">Password is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text"
+                       formControlName="gitlabToken"
+                       placeholder="Personal Gitlab token"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': f.gitlabToken?.errors }" />
+
+                <div *ngIf="f.gitlabToken?.errors"
+                     class="invalid-feedback">
+                    <div class="invalid_text"
+                         *ngIf="f.gitlabToken?.errors.required">Gitlab token is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="date"
+                       formControlName="dateTokenGitlab"
+                       class="form-control"
+                       [ngClass]="{ 'is-invalid': f.dateTokenGitlab?.errors }" />
+                <div *ngIf="f.dateTokenGitlab?.errors"
+                     class="invalid-feedback">
+                    <div class="invalid_text"
+                         *ngIf="f.dateTokenGitlab.errors.required">Date gitlab is required.</div>
+                    <div class="invalid_text"
+                         *ngIf="f.dateTokenGitlab.errors.validDate"> Error with date gitlab token.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="submit"
+                        [ngStyle]="loading ? { 'background-color': 'orange','color': 'white'} : null"
+                        class="btn"
+                        [disabled]="loginForm.invalid">Log In</button>
+                <div class="invalid_text"
+                     *ngIf="errorMessage">{{errorMessage}}</div>
+            </div>
+        </form>
+    </div>
+</div>
