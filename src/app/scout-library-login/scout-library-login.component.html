@@ -10,11 +10,11 @@
                        formControlName="username"
                        placeholder="username"
                        class="form-control"
-                       [ngClass]="{ 'is-invalid': f.username?.errors }" />
-                <div *ngIf="f.username?.errors"
+                       [ngClass]="{ 'is-invalid': formComtrols.username?.errors }" />
+                <div *ngIf="formComtrols.username?.errors"
                      class="invalid-feedback">
                     <div class="invalid_text"
-                         *ngIf="f.username.errors.required">Username is required</div>
+                         *ngIf="formComtrols.username.errors.required">Username is required</div>
                 </div>
             </div>
             <div class="form-group">
@@ -22,11 +22,11 @@
                        formControlName="password"
                        placeholder="password"
                        class="form-control"
-                       [ngClass]="{ 'is-invalid': f.password?.errors }" />
-                <div *ngIf="f.password?.errors"
+                       [ngClass]="{ 'is-invalid': formComtrols.password?.errors }" />
+                <div *ngIf="formComtrols.password?.errors"
                      class="invalid-feedback">
                     <div class="invalid_text"
-                         *ngIf="f.password?.errors.required">Password is required</div>
+                         *ngIf="formComtrols.password?.errors.required">Password is required</div>
                 </div>
             </div>
             <div class="form-group">
@@ -34,25 +34,25 @@
                        formControlName="gitlabToken"
                        placeholder="Personal Gitlab token"
                        class="form-control"
-                       [ngClass]="{ 'is-invalid': f.gitlabToken?.errors }" />
+                       [ngClass]="{ 'is-invalid': formComtrols.gitlabToken?.errors }" />
 
-                <div *ngIf="f.gitlabToken?.errors"
+                <div *ngIf="formComtrols.gitlabToken?.errors"
                      class="invalid-feedback">
                     <div class="invalid_text"
-                         *ngIf="f.gitlabToken?.errors.required">Gitlab token is required</div>
+                         *ngIf="formComtrols.gitlabToken?.errors.required">Gitlab token is required</div>
                 </div>
             </div>
             <div class="form-group">
                 <input type="date"
                        formControlName="dateTokenGitlab"
                        class="form-control"
-                       [ngClass]="{ 'is-invalid': f.dateTokenGitlab?.errors }" />
-                <div *ngIf="f.dateTokenGitlab?.errors"
+                       [ngClass]="{ 'is-invalid': formComtrols.dateTokenGitlab?.errors }" />
+                <div *ngIf="formComtrols.dateTokenGitlab?.errors"
                      class="invalid-feedback">
                     <div class="invalid_text"
-                         *ngIf="f.dateTokenGitlab.errors.required">Date gitlab is required.</div>
+                         *ngIf="formComtrols.dateTokenGitlab.errors.required">Date gitlab is required.</div>
                     <div class="invalid_text"
-                         *ngIf="f.dateTokenGitlab.errors.validDate"> Error with date gitlab token.</div>
+                         *ngIf="formComtrols.dateTokenGitlab.errors.validDate"> Error with date gitlab token.</div>
                 </div>
             </div>
             <div class="form-group">

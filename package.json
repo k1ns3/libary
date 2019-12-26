@@ -27,7 +27,7 @@
     "@ngrx/store": "^7.0.0",
     "@ngrx/store-devtools": "^7.0.0",
     "@swimlane/ngx-charts": "^8.0.0",
-    "@swimlane/ngx-graph": "^5.1.1",
+    "@swimlane/ngx-graph": "^6.2.0",
     "@types/d3-transition": "^1.1.1",
     "core-js": "^2.5.4",
     "d3-array": "1.2.1",

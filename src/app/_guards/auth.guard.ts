@@ -1,31 +1,34 @@
 import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { Store } from '@ngrx/store';
-import { getNpmToken, getNpmTokenDate } from '../root-store/selectors/auth.selectors';
-import { AppState } from '../root-store/root.store';
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { Store } from '@ngrx/store';
+
+import { getNpmData } from '../root-store/selectors/auth.selectors';
+import { AppState } from '../root-store/root.store';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
 
-    npmToken: string;
-    npmTokenDate: number;
     constructor(
         private readonly _store: Store<AppState>,
         private readonly _router: Router
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        this._store.select(getNpmToken).subscribe(data => this.npmToken = data);
-        this._store.select(getNpmTokenDate).subscribe(data => this.npmTokenDate = data);
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Observable<boolean> {
+        return this._store
+            .select(getNpmData)
+            .pipe(map(npmAuthData => this.handlingNpmAuthData(npmAuthData.npmAccessToken, npmAuthData.date, state.url)));
+    }
 
-        if (this.npmToken && Date.now() < this.npmTokenDate) {
+    private handlingNpmAuthData(npmToken: string, npmTokenDate: number, returnUrl: string ): boolean {
+        if (npmToken && Date.now() < npmTokenDate) {
             return true;
-        } else {
-            this._router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
-            return false;
         }
+
+        this._router.navigate(['/login'], { queryParams: { returnUrl } });
+        return false;
     }
 }

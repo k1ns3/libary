@@ -20,27 +20,36 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
 
     readonly curve: any;
 
-    center$: Subject<any>;
-    zoomToFit$: Subject<any>;
-    orientation = 'LR';
-    fitContainer: boolean;
+    center$: Subject<boolean>;
+    zoomToFit$: Subject<boolean>;
+    update$: Subject<boolean>;
     graphLinksData$: Observable<any>;
     graphNodesData$: Observable<any>;
 
+    orientation = 'LR';
+    fitContainer: boolean;
+
+
+    
     constructor(
         private _store: Store<AppState>,
     ) {
-        this.curve = shape.curveNatural;
+        this.curve = shape.curveCardinal;
         this.fitContainer = true;
         this._destroy$ = new Subject();
         this.center$ = new BehaviorSubject(true);
         this.zoomToFit$ = new BehaviorSubject(true);
+        this.update$ = new BehaviorSubject(true);
     }
 
     ngOnInit() {
         this.graphNodesData$ = this._store.pipe(select(getGraphNodesData));
         this.graphLinksData$ = this._store.pipe(select(getGraphLinksData));
         this._store.dispatch(new GetData());
+    }
+
+    ngOnDestroy() {
+        this._destroy$.next();
     }
 
     zoomToFit() {
@@ -50,8 +59,8 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     center() {
         this.center$.next(true);
     }
-
-    ngOnDestroy() {
-        this._destroy$.next();
+    
+    update(){
+        this.update$.next(true);
     }
 }

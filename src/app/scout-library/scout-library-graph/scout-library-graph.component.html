@@ -1,20 +1,24 @@
+
 <main class="theme">
     <div class="chart-col">
         <button class="btn"
                 (click)="center()">Center</button>
         <button class="btn"
                 (click)="zoomToFit()">Fit in view</button>
+        <button class="btn" 
+                (click)="update()">Update</button>
         <div class="my_graph">
             <ngx-graph class="chart-container"
                        [links]="graphLinksData$ | async"
                        [nodes]="graphNodesData$ | async"
                        [curve]="curve"
                        [draggingEnabled]="false"
-                       [orientation]="orientation"
                        [enableZoom]="true"
                        [zoomToFit$]="zoomToFit$"
                        [center$]="center$"
-                       [panOnZoom]=false>
+                       [panOnZoom]=false
+                       [update$]="update$">
+                       
 
                 <ng-template #defsTemplate>
                     <svg:marker id="arrow"
@@ -31,17 +35,13 @@
 
                 <ng-template #nodeTemplate
                              let-node>
-                    <svg:g class="node"
-                           ngx-tooltip
-                           [tooltipPlacement]="'top'"
-                           [tooltipType]="'tooltip'"
-                           [tooltipTitle]="node.position">
-                        <svg:rect [attr.width]="node.width"
-                                  [attr.height]="node.height"
-                                  [attr.fill]="node.options.color" />
+                    <svg:g class="node">
+                        <svg:rect [attr.width]="node.dimension.width"
+                                  [attr.height]="node.dimension.height"
+                                  [attr.fill]="node.data.color"/>
                         <svg:text alignment-baseline="central"
                                   [attr.x]="10"
-                                  [attr.y]="node.height / 2">{{node.label}}</svg:text>
+                                  [attr.y]="node.dimension.height / 2">{{node.label}}</svg:text>
                     </svg:g>
                 </ng-template>
 

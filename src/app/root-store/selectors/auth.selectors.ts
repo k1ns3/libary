@@ -4,9 +4,19 @@ import { createSelector } from '@ngrx/store';
 
 export const selectFeature = (state: AppState) => state.app.auth;
 
+export const getAuthData = createSelector(
+    selectFeature,
+    (state: User) => state
+);
+
 export const getNpmToken = createSelector(
     selectFeature,
     (state: User) => state.token
+);
+
+export const getNpmData = createSelector(
+    selectFeature,
+    (state: User) => ({npmAccessToken: state.token, date: state.dateNPMToken}) 
 );
 
 export const getGitlabToken = createSelector(

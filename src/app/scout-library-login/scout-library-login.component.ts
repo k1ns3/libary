@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControlOptions } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControlOptions, AbstractControl } from '@angular/forms';
 
 import { ValidateDate } from '../validators/date.validator';
 import { Store, select } from '@ngrx/store';
@@ -10,6 +10,7 @@ import { Subject } from 'rxjs';
 import { AppState } from '../root-store/root.store';
 import { User } from '../root-store/state/user.model';
 import { takeUntil } from 'rxjs/operators';
+import { getAuthData } from '../root-store/selectors/auth.selectors';
 
 export type TypedControlsConfig<T> = {
     [p in keyof (T)]: [string, ValidatorFn | AbstractControlOptions | ValidatorFn[]] | FormGroup
@@ -23,29 +24,77 @@ export type TypedControlsConfig<T> = {
 export class ScoutLibraryLoginComponent implements OnInit, OnDestroy {
 
     private readonly _destroy$: Subject<any>;
+    private _errorMessage: string;
+    private _returnUrl: string;
 
     loginForm: FormGroup;
     loading = false;
-    submitted = false;
-    returnUrl: string;
-    errorMessage: string;
-    formData: any;
-    testGitlab: any;
+
+    get formComtrols(): {[key: string]: AbstractControl;} {
+         return this.loginForm && this.loginForm.controls; 
+    }
+
+    get errorMessage(): string {
+        return this._errorMessage || '';
+    }
 
     constructor(
-        private store: Store<AppState>,
-        private formBuilder: FormBuilder,
-        private route: ActivatedRoute
+        private readonly store: Store<AppState>,
+        private readonly formBuilder: FormBuilder,
+        private readonly route: ActivatedRoute
     ) {
         this._destroy$ = new Subject();
-        this.errorMessage = '';
+        this._errorMessage = '';
 
-        const controlsConfig: TypedControlsConfig<User> = {
+        const controlsConfig: TypedControlsConfig<User> = this.setAuthForm();
+        this.loginForm = this.formBuilder.group(controlsConfig);
+
+        this.store
+            .pipe(
+                select(getAuthData),
+                takeUntil(this._destroy$)
+            )
+            .subscribe(
+                auth => {
+                    this.setFormValues(this.loginForm, auth);
+
+                    this.loginForm.updateValueAndValidity();
+                    this._errorMessage = auth.apiErrorMessage || '';
+                }
+            );
+    }
+
+    ngOnInit() {
+        this._returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/'; //????
+    }
+
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+
+    onSubmit() {
+        this.loading = true;
+
+        this.store.dispatch(new LogIn({
+            username: this.formComtrols.username.value || '',
+            password: this.formComtrols.password.value || '',
+            gitlabToken: this.formComtrols.gitlabToken.value || '',
+            dateTokenGitlab: this.formComtrols.dateTokenGitlab.value || '',
+            returnUrl: this._returnUrl
+        }));
+    }
+
+    private setAuthForm(): TypedControlsConfig<User> {
+        return {
             username: [
                 '',
                 Validators.required
             ],
-            password: ['', Validators.required],
+            password: [
+                '',
+                Validators.required
+            ],
             gitlabToken: [
                 '',
                 Validators.required
@@ -58,43 +107,14 @@ export class ScoutLibraryLoginComponent implements OnInit, OnDestroy {
                 ]
             ]
         };
-        this.loginForm = this.formBuilder.group(controlsConfig);
-
-        this.store
-            .pipe(
-                select(s => s.app.auth),
-                takeUntil(this._destroy$)
-            )
-            .subscribe(
-                auth => {
-                    this.loginForm.controls.username.setValue(auth.username);
-                    this.loginForm.controls.password.setValue(auth.password);
-                    this.loginForm.controls.gitlabToken.setValue(auth.gitlabToken);
-                    this.loginForm.controls.dateTokenGitlab.setValue(auth.dateTokenGitlab);
-                    this.errorMessage = auth.apiErrorMessage;
-                }
-            );
     }
 
-    ngOnInit() {
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-    }
-
-    get f(): any { return this.loginForm && this.loginForm.controls; }
-
-    onSubmit() {
-        this.loading = true;
-        this.store.dispatch(new LogIn({
-            username: this.f.username.value,
-            password: this.f.password.value,
-            gitlabToken: this.f.gitlabToken.value,
-            dateTokenGitlab: this.f.dateTokenGitlab.value,
-            returnUrl: this.returnUrl
-        }));
-    }
-
-    ngOnDestroy() {
-        this._destroy$.next();
-        this._destroy$.complete();
+    private setFormValues(form: FormGroup, data: User) {
+        form.setValue({
+            username: data.username || '',
+            password: data.password || '',
+            gitlabToken: data.gitlabToken || '',
+            dateTokenGitlab: data.dateTokenGitlab || '0000-00-00'
+        });
     }
 }
