@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Subject, Observable, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,7 +11,6 @@ import * as actions from '../../root-store/actions/project.table.actions';
 import { GetData } from 'src/app/root-store/actions/data.actions';
 import { createdDataProjectTable } from 'src/app/root-store/selectors/project.data.selectors';
 import { AppState } from 'src/app/root-store/root.store';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { selectNPMСheckbox, selectNPMScoutСheckbox, selectGitLabСheckbox } from 'src/app/root-store/selectors/project.table.selectors';
 
 @Component({
@@ -84,7 +84,11 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
         this.dataTables$ = this._store.pipe(
             select(createdDataProjectTable)
         );
+    }
 
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     get f(): any { return this.projectTableForm && this.projectTableForm.controls; }
@@ -152,8 +156,4 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
         this._store.dispatch({ type: actions.SHOW_TABLE_LEGEND_PROJECT });
     }
 
-    ngOnDestroy() {
-        this._destroy$.next();
-        this._destroy$.complete();
-    }
 }

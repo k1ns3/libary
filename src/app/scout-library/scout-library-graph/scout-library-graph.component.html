@@ -16,8 +16,8 @@
                        [enableZoom]="true"
                        [zoomToFit$]="zoomToFit$"
                        [center$]="center$"
-                       [panOnZoom]=false
-                       [update$]="update$">
+                       [update$]="update$"
+                       [panOnZoom]=false>
                        
 
                 <ng-template #defsTemplate>
@@ -41,7 +41,9 @@
                                   [attr.fill]="node.data.color"/>
                         <svg:text alignment-baseline="central"
                                   [attr.x]="10"
-                                  [attr.y]="node.dimension.height / 2">{{node.label}}</svg:text>
+                                  [attr.y]="node.dimension.height / 2">
+                                  {{node.label}}
+                        </svg:text>
                     </svg:g>
                 </ng-template>
 

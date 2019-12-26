@@ -119,6 +119,11 @@ export class ScoutLibraryTableDeplibComponent implements OnInit, OnDestroy {
         );
         this._store.dispatch(new GetData());
     }
+    
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
 
     get f(): any { return this.depTableFrom$ && this.depTableFrom$.controls; }
 
@@ -206,7 +211,6 @@ export class ScoutLibraryTableDeplibComponent implements OnInit, OnDestroy {
     }
 
     isVisibleColor(items) {
-
         const isRedItems = visibleFilters.isMultiple(items);
         const isOrangeItems = visibleFilters.isNotLatest(items);
         const isBlackItems = !isRedItems && !isOrangeItems;
@@ -230,8 +234,4 @@ export class ScoutLibraryTableDeplibComponent implements OnInit, OnDestroy {
             || notCheckboxSource;
     }
 
-    ngOnDestroy() {
-        this._destroy$.next();
-        this._destroy$.complete();
-    }
 }
