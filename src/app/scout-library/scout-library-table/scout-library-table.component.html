@@ -58,6 +58,9 @@
     <div class="tableLegend">
         <button class="btn"
                 (click)="onClickedShowHiddenTableLegend()"> Table legend </button>
+                
+        <button mat-button color="primary">Primary</button>
+
         <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
 
         <ng-template #showLegend>
