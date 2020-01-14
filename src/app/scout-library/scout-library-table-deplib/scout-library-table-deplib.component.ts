@@ -165,6 +165,7 @@ export class ScoutLibraryTableDeplibComponent implements OnInit, OnDestroy {
         return ``;
     }
 
+
     onClickedClearedCheckboxColorFilter() {
         this._store.dispatch({ type: actions.CLEAR_COLOR_CHECKBOX });
     }

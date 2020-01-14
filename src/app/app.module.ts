@@ -5,7 +5,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 import { StoreModule } from '@ngrx/store';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { EffectsModule } from '@ngrx/effects';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -18,14 +17,14 @@ import { reducers, metaReducers } from './root-store/root.store';
 import { DataEffects } from './root-store/effects/data.effects';
 
 import { environment } from '../environments/environment';
+import { MaterialAppModule } from './ngmaterial.module';
 
 @NgModule({
     declarations: [
         AppComponent
     ],
     imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
+        BrowserModule,BrowserAnimationsModule, MaterialAppModule,
         HttpClientModule,
         AppRoutingModule,
         ScoutLibraryLoginModule,

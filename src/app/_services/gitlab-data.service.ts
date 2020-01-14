@@ -21,7 +21,7 @@ export class GitlabDataService {
                 switchMap(configs =>
                     combineLatest(
                         configs.map(config =>
-                            this.getData(config.id, config.default_branch, token).pipe(
+                            this.getData({ id: config.id, branch: config.default_branch, token }).pipe(
                                 map(project => Object.assign(project, { name: config.name }))
                             )
                         )
@@ -30,7 +30,7 @@ export class GitlabDataService {
             );
     }
 
-    private getData(id, branch, token): Observable<any> {
+    private getData({ id, branch, token }: { id; branch; token; }): Observable<any> {
         // tslint:disable-next-line:max-line-length
         return this._http.get(`https://vmgitlab01.scout-gps.ru:1443/api/v4/projects/${id}/repository/files/package.json/raw?ref=${branch}&private_token=${token}`);
     }
