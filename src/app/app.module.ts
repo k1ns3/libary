@@ -17,14 +17,12 @@ import { reducers, metaReducers } from "./root-store/root.store";
 import { DataEffects } from "./root-store/effects/data.effects";
 
 import { environment } from "../environments/environment";
-import { MaterialAppModule } from "./ngmaterial.module";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    MaterialAppModule,
     HttpClientModule,
     AppRoutingModule,
     ScoutLibraryLoginModule,
