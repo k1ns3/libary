@@ -42,13 +42,14 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
             this.center$ = new BehaviorSubject(true);
             this.zoomToFit$ = new BehaviorSubject(true);
             this.update$ = new BehaviorSubject(true);
-         
+
+            this._store.dispatch(new GetData());
         }
 
     ngOnInit() {
+        
         this.graphNodesData$ = this._store.pipe(select(getGraphNodesData));
         this.graphLinksData$ = this._store.pipe(select(getGraphLinksData));
-        this._store.dispatch(new GetData());
     }
 
     ngOnDestroy() {

@@ -6,6 +6,7 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { ScoutLibraryLoginModule } from "./scout-library-login/scout-library-login.module";
@@ -31,6 +32,10 @@ import { environment } from "../environments/environment";
     }),
     StoreModule.forRoot(reducers, {
       metaReducers
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      logOnly: environment.production, // Restrict extension to log-only mode
     }),
     EffectsModule.forRoot([AuthEffects, DataEffects])
   ],

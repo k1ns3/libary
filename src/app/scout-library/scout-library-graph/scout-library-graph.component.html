@@ -1,13 +1,31 @@
 
 <main class="theme">
     <div class="chart-col">
-        <button class="btn"
+
+        <div class="select-block">
+            <mat-form-field>
+                <mat-label>Select an option</mat-label>
+                <mat-select [(value)]="selected">
+                  <mat-option>None</mat-option>
+                  <mat-option value="option1">Option 1</mat-option>
+                  <mat-option value="option2">Option 2</mat-option>
+                  <mat-option value="option3">Option 3</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <p>You selected: {{selected}}</p>
+        </div>
+        
+        <div class="example-button-row">
+            <button mat-stroked-button
                 (click)="center()">Center</button>
-        <button class="btn"
+            <button mat-stroked-button
                 (click)="zoomToFit()">Fit in view</button>
-        <button class="btn" 
-                (click)="update()">Update</button>
-        <div class="my_graph">
+            <button mat-stroked-button
+                (click)="update()">Update</button>  
+        </div>
+    
+            <div class="my_graph">
             <ngx-graph class="chart-container"
                        [links]="graphLinksData$ | async"
                        [nodes]="graphNodesData$ | async"
