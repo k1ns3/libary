@@ -1,3 +1,4 @@
+
 .dataTable {
     width: 100%;
     padding-top: 30px;
@@ -47,18 +48,18 @@ table, th, td {
     background-color: rgb(241, 111, 111);
 }
 
-.header {
-    font-size: 18px;
-}
+// .header {
+//     font-size: 18px;
+// }
 
-.container {
-    display: inline-block;
-    position: relative;
-    padding-left: 30px;
-    cursor: pointer;
-    font-size: 18px;
-    user-select: none;
-}
+// .container {
+//     display: inline-block;
+//     position: relative;
+//     padding-left: 30px;
+//     cursor: pointer;
+//     font-size: 18px;
+//     user-select: none;
+// }
 
 .container input {
     position: absolute;
@@ -68,135 +69,135 @@ table, th, td {
     width: 0;
 }
 
-.checkmarkRed {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    height: 18px;
-    width: 18px;
-    background-color: rgba(255, 0, 0, 0.555);
-}
+// .checkmarkRed {
+//     position: absolute;
+//     top: 0;
+//     left: 10px;
+//     height: 18px;
+//     width: 18px;
+//     background-color: rgba(255, 0, 0, 0.555);
+// }
 
-.container:hover input ~ .checkmarkRed {
-    background-color: rgba(255, 0, 0, 0.726);
-}
+// .container:hover input ~ .checkmarkRed {
+//     background-color: rgba(255, 0, 0, 0.726);
+// }
 
-.container input:checked ~ .checkmarkRed {
-    background-color: rgb(255, 0, 0);
-}
+// .container input:checked ~ .checkmarkRed {
+//     background-color: rgb(255, 0, 0);
+// }
 
-.checkmarkRed:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
+// .checkmarkRed:after {
+//     content: "";
+//     position: absolute;
+//     display: none;
+// }
 
-.container input:checked ~ .checkmarkRed:after {
-    display: block;
-}
+// .container input:checked ~ .checkmarkRed:after {
+//     display: block;
+// }
 
-.container .checkmarkRed:after {
-    left: 7px;
-    top: 2px;
-    width: 3px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-}
+// .container .checkmarkRed:after {
+//     left: 7px;
+//     top: 2px;
+//     width: 3px;
+//     height: 10px;
+//     border: solid white;
+//     border-width: 0 3px 3px 0;
+//     transform: rotate(45deg);
+// }
 
-.checkmarkOrange {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    height: 18px;
-    width: 18px;
-    background-color: rgba(255, 174, 0, 0.555);
-}
+// .checkmarkOrange {
+//     position: absolute;
+//     top: 0;
+//     left: 10px;
+//     height: 18px;
+//     width: 18px;
+//     background-color: rgba(255, 174, 0, 0.555);
+// }
 
-.container:hover input ~ .checkmarkOrange {
-    background-color: rgba(255, 174, 0, 0.726);
-}
+// .container:hover input ~ .checkmarkOrange {
+//     background-color: rgba(255, 174, 0, 0.726);
+// }
 
-.container input:checked ~ .checkmarkOrange {
-    background-color: rgb(255, 174, 0);
-}
+// .container input:checked ~ .checkmarkOrange {
+//     background-color: rgb(255, 174, 0);
+// }
 
-.checkmarkOrange:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
+// .checkmarkOrange:after {
+//     content: "";
+//     position: absolute;
+//     display: none;
+// }
 
-.container input:checked ~ .checkmarkOrange:after {
-    display: block;
-}
+// .container input:checked ~ .checkmarkOrange:after {
+//     display: block;
+// }
 
-.container .checkmarkOrange:after {
-    left: 7px;
-    top: 2px;
-    width: 3px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-}
+// .container .checkmarkOrange:after {
+//     left: 7px;
+//     top: 2px;
+//     width: 3px;
+//     height: 10px;
+//     border: solid white;
+//     border-width: 0 3px 3px 0;
+//     transform: rotate(45deg);
+// }
 
-.checkmarkBlack {
-    position: absolute;
-    top: 0;
-    left: 10px;
-    height: 18px;
-    width: 18px;
-    background-color: rgba(0, 0, 0, 0.555);
-}
+// .checkmarkBlack {
+//     position: absolute;
+//     top: 0;
+//     left: 10px;
+//     height: 18px;
+//     width: 18px;
+//     background-color: rgba(0, 0, 0, 0.555);
+// }
 
-.container:hover input ~ .checkmarkBlack {
-    background-color: rgba(0, 0, 0, 0.726);
-}
+// .container:hover input ~ .checkmarkBlack {
+//     background-color: rgba(0, 0, 0, 0.726);
+// }
 
-.container input:checked ~ .checkmarkBlack {
-    background-color: rgb(0, 0, 0);
-}
+// .container input:checked ~ .checkmarkBlack {
+//     background-color: rgb(0, 0, 0);
+// }
 
-.checkmarkBlack:after {
-    content: "";
-    position: absolute;
-    display: none;
-}
+// .checkmarkBlack:after {
+//     content: "";
+//     position: absolute;
+//     display: none;
+// }
 
-.container input:checked ~ .checkmarkBlack:after {
-    display: block;
-}
+// .container input:checked ~ .checkmarkBlack:after {
+//     display: block;
+// }
 
-.container .checkmarkBlack:after {
-    left: 7px;
-    top: 2px;
-    width: 3px;
-    height: 10px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    transform: rotate(45deg);
-}
+// .container .checkmarkBlack:after {
+//     left: 7px;
+//     top: 2px;
+//     width: 3px;
+//     height: 10px;
+//     border: solid white;
+//     border-width: 0 3px 3px 0;
+//     transform: rotate(45deg);
+// }
 
-.btn {
-    margin-left: 10px;
-    font-size: 14px;
-    outline: 0;
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
+// .btn {
+//     margin-left: 10px;
+//     font-size: 14px;
+//     outline: 0;
+//     background-color: black;
+//     color: white;
+//     border: none;
+//     padding: 5px 10px;
+//     cursor: pointer;
 
-    &:hover {
-        background-color: #50abcc;
-    }
+//     &:hover {
+//         background-color: #50abcc;
+//     }
 
-    &:active {
-        background-color: orange;
-    }
-}
+//     &:active {
+//         background-color: orange;
+//     }
+// }
 
 input::-webkit-input-placeholder {
     color: #000;
@@ -273,4 +274,9 @@ input:focus:-ms-input-placeholder {
     width: 10px;
     border-radius: 50%;
     display: inline-block;
+}
+
+
+.example-button-row mat-checkbox{
+    margin-right: 10px;
 }

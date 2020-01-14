@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { MatButtonModule } from '@angular/material';
+import { MatButtonModule,MatCheckboxModule, MatInputModule, } from '@angular/material';
 
 import { ScoutLibraryTableComponent } from './scout-library-table.component';
 
@@ -11,7 +11,9 @@ import { ScoutLibraryTableComponent } from './scout-library-table.component';
     imports: [
         CommonModule,
         ReactiveFormsModule,
-        MatButtonModule
+        MatButtonModule,
+        MatCheckboxModule,
+        MatInputModule
     ],
     declarations: [
         ScoutLibraryTableComponent,
