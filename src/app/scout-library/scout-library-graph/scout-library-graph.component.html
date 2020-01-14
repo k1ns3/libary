@@ -5,12 +5,14 @@
         <div class="select-block">
             <mat-form-field>
                 <mat-label>Select an option</mat-label>
-                <mat-select [(value)]="selected">
-                  <mat-option>None</mat-option>
-                  <mat-option value="option1">Option 1</mat-option>
-                  <mat-option value="option2">Option 2</mat-option>
-                  <mat-option value="option3">Option 3</mat-option>
+                <mat-select 
+                [(value)]="selected"
+                [formControl]="selectFormControl">
+                  <!-- <mat-option *ngFor="let l of links"  [value]="l.value">
+                    {{l.label}}
+                </mat-option> -->
                 </mat-select>
+                <mat-error *ngIf="selectFormControl.hasError('required')">Please choose a lib</mat-error>
               </mat-form-field>
 
               <p>You selected: {{selected}}</p>

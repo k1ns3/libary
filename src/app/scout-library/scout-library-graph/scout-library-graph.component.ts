@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import {FormControl, Validators} from '@angular/forms';
 
 import { Subject, BehaviorSubject, Observable } from 'rxjs';
 
@@ -30,6 +31,8 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     orientation = 'LR';
     fitContainer: boolean;
 
+
+    selectFormControl = new FormControl('', Validators.required);
 
     
     constructor(
