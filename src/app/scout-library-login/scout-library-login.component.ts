@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControlOptions, AbstractControl } from '@angular/forms';
 
-import { ValidateDate } from '../validators/date.validator';
 import { Store, select } from '@ngrx/store';
+import { Subject } from 'rxjs';
+import { ValidateDate } from '../validators/date.validator';
 
 import { LogIn } from '../root-store/actions/auth.actions';
-import { Subject } from 'rxjs';
 import { AppState } from '../root-store/root.store';
 import { User } from '../root-store/state/user.model';
 import { takeUntil } from 'rxjs/operators';

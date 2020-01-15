@@ -34,6 +34,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
 
     selectFormControl = new FormControl('', Validators.required);
 
+    // public nodes: [] = uniqueArray ;
     
     constructor(
         private _store: Store<AppState>,
