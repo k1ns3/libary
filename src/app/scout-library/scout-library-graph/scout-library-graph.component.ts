@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import {FormControl, Validators} from '@angular/forms';
 
-import { Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subject, BehaviorSubject, Observable, combineLatest  } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import * as shape from 'd3-shape';
 
@@ -9,6 +10,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from 'src/app/root-store/root.store';
 import { GetData } from 'src/app/root-store/actions/data.actions';
 import { getGraphNodesData, getGraphLinksData } from 'src/app/root-store/selectors/grafh.selectors';
+import { Layout } from '@swimlane/ngx-graph/lib/models';
 
 
 
@@ -32,9 +34,16 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     fitContainer: boolean;
 
 
+
     selectFormControl = new FormControl('', Validators.required);
 
-    // public nodes: [] = uniqueArray ;
+    public graphNodesData : Object;
+    public graphLinksData : Object;
+    public sourceGraphLinksData : any;
+    public sourceGraphNodesData: any;
+
+    layout: String | Layout = 'Browse Detected';
+
     
     constructor(
         private _store: Store<AppState>,
@@ -48,13 +57,29 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
             this.update$ = new BehaviorSubject(true);
 
             this._store.dispatch(new GetData());
+
         }
 
     ngOnInit() {
-        
-        this.graphNodesData$ = this._store.pipe(select(getGraphNodesData));
-        this.graphLinksData$ = this._store.pipe(select(getGraphLinksData));
+        this.graphNodesData$ = this._store.select(getGraphNodesData);
+        this.graphLinksData$ = this._store.select(getGraphLinksData);
+
+        combineLatest(this.graphNodesData$, this.graphLinksData$)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(([graphNodesData, graphLinksData ]) => {
+                    if(graphNodesData) { 
+                        this.sourceGraphNodesData = graphNodesData;
+                        this.graphNodesData =  this.sourceGraphNodesData;
+                    }
+                    if(graphLinksData) {
+                        this.sourceGraphLinksData = graphLinksData;
+                        this.graphLinksData =  this.sourceGraphLinksData;
+                    }
+            });
+        this._store.dispatch(new GetData());
     }
+        
+
 
     ngOnDestroy() {
         this._destroy$.next();
@@ -74,5 +99,9 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     
     update(){
         this.update$.next(true);
+    }
+
+    setLayout(event: Event) {
+        event = this.sourceGraphNodesData.find(l => l.value === event);
     }
 }

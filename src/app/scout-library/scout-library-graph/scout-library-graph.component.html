@@ -7,10 +7,11 @@
                 <mat-label>Select an option</mat-label>
                 <mat-select 
                 [(value)]="selected"
-                [formControl]="selectFormControl">
-                  <mat-option *ngFor="let orient of orientations" [value]="orient.value">
-                      {{orient.label}}
-                </mat-option>
+                [formControl]="selectFormControl"
+                (ngModelChange)="setLayout($event)">
+                    <mat-option *ngFor="let l of this.graphNodesData" [value]="l.value">
+                        {{l.label}}
+                    </mat-option>
                 </mat-select>
                 <mat-error *ngIf="selectFormControl.hasError('required')">Please choose a lib</mat-error>
               </mat-form-field>
@@ -29,8 +30,8 @@
     
             <div class="my_graph">
             <ngx-graph class="chart-container"
-                        [links] = "graphLinksData$ | async"
-                        [nodes] = "graphNodesData$ | async"
+                        [links] = "this.graphLinksData"
+                        [nodes] = "this.graphNodesData"
                         [curve] = "curve"
                         [draggingEnabled] = "draggingEnabled"
                         [enableZoom] = "true"
