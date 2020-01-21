@@ -33,6 +33,7 @@ function createLinks(data: any[]): Array<Object> {
             }
         }
     }
+    // console.log(links);
     return links;
 }
 
@@ -55,6 +56,7 @@ function createNodes(data: any[]): Array<Object> {
     nodesData = depLibData.concat(generalLibData);
 
     const uniqueArray = removedDuplicatesNodes(nodesData, 'id');
+    // console.log(uniqueArray);
     return uniqueArray;
 }
 

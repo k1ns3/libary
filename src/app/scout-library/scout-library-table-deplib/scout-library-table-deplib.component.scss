@@ -16,6 +16,9 @@
 .searchForm {
     display: flex;
 }
+.example-full-width{
+    margin-right: 20px;
+}
 
 table {
     border-collapse: collapse;
@@ -288,3 +291,6 @@ input:focus:-ms-input-placeholder {
     display: inline-block;
 }
 
+.example-button-row mat-checkbox{
+    margin-right: 10px;
+}

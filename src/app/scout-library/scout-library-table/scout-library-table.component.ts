@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { Subject, Observable, combineLatest } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -12,6 +12,7 @@ import { GetData } from 'src/app/root-store/actions/data.actions';
 import { createdDataProjectTable } from 'src/app/root-store/selectors/project.data.selectors';
 import { AppState } from 'src/app/root-store/root.store';
 import { selectNPMСheckbox, selectNPMScoutСheckbox, selectGitLabСheckbox } from 'src/app/root-store/selectors/project.table.selectors';
+import { SearchDepInputProjectAction, SearchProjectInputProjectAction } from '../../root-store/actions/project.table.actions';
 
 @Component({
     selector: 'app-scout-library-table',
@@ -53,11 +54,11 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
                 takeUntil(this._destroy$)
             )
             .subscribe(
-
                 projectTable => {
                     this.projectTableForm.setValue(projectTable);
                 }
             );
+            
         this.subscriberonCombinedSourceFilter$ =
             combineLatest(
                 this._store.pipe(
@@ -69,7 +70,7 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
                 this._store.pipe(
                     select(selectGitLabСheckbox)
                 ),
-            ).subscribe(
+            ).pipe(tap(v => console.log(v))).subscribe(
                 ([NPMСheckbox, NPMScoutСheckbox, GitLabСheckbox]) => {
                     this.checkNPM = NPMСheckbox;
                     this.checkNPMScout = NPMScoutСheckbox;
@@ -126,23 +127,18 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
     }
     onChangedCheckNPM() {
         this._store.dispatch({ type: actions.NPM_CHECKBOX_PROJECT });
-        return false;
     }
     onChangedCheckNPMScout() {
         this._store.dispatch({ type: actions.NPM_SCOUT_CHECKBOX_PROJECT });
-        return false;
     }
     onChangedCheckGitlab() {
         this._store.dispatch({ type: actions.GITLAB_CHECKBOX_PROJECT });
-        return false;
     }
     onChangedSearchProjectInput($event) {
-        this._store.dispatch(new actions.SearchProjectInputProjectAction($event));
-        return ``;
+        this._store.dispatch(new SearchProjectInputProjectAction($event));
     }
     onChangedSearchDepInput($event) {
-        this._store.dispatch(new actions.SearchDepInputProjectAction($event));
-        return ``;
+        this._store.dispatch(new SearchDepInputProjectAction($event));
     }
     onClickedClearedCheckboxSourceFilter() {
         this._store.dispatch({ type: actions.CLEAR_SOURCE_CHECKBOX_PROJECT });

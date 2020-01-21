@@ -5,50 +5,56 @@
                 <div class="header">
                     <p>Filters by source:</p>
                 </div>
-                <div class="labels">
-                    <label class="container">
-                        <input type="checkbox"
-                               formControlName="NPMСheckboxState"
-                               (change)="onChangedCheckNPM()" />
+                <div class="example-button-row">
+
+                    <mat-checkbox
+                        formControlName="NPMСheckboxState"
+                        (change)="onChangedCheckNPM()">
                         NPM
-                        <span class="checkmarkRed"></span>
-                    </label>
+                    </mat-checkbox>
 
-                    <label class="container">
-                        <input type="checkbox"
-                               formControlName="NPMScoutСheckboxState"
-                               (change)="onChangedCheckNPMScout()" />
+                    <mat-checkbox
+                        formControlName="NPMScoutСheckboxState"
+                        (change)="onChangedCheckNPMScout()">
                         NPM Scout
-                        <span class="checkmarkOrange"></span>
-                    </label>
+                    </mat-checkbox>
 
-                    <label class="container">
-                        <input type="checkbox"
-                               formControlName="GitLabСheckboxState"
-                               (change)="onChangedCheckGitlab()" />
+                    <mat-checkbox
+                        formControlName="GitLabСheckboxState"
+                        (change)="onChangedCheckGitlab()">
                         Gitlab
-                        <span class="checkmarkBlack"></span>
-                    </label>
-                    <button class="btn "
-                            (click)="onClickedClearedCheckboxSourceFilter()"> - </button>
-                    <button class="btn "
+                    </mat-checkbox>
+
+                    <button mat-icon-button color="primary"
                             (click)="onClickedAddedCheckboxSourceFilter()"> + </button>
+                    <button mat-icon-button color="warn"
+                            (click)="onClickedClearedCheckboxSourceFilter()"> - </button>
+                    
+
                 </div>
-            </div>
+
+                    
+                </div>
             <div class="searchPanel">
                 <div class="header">
                     <p>Searching by:</p>
                 </div>
                 <div class="searchForm">
-                    <input class="searchInput"
-                           placeholder="Dependency Library"
-                           formControlName="SearchDepInput"
-                           (input)="onChangedSearchDepInput($event.target.value)" />
 
-                    <input class="searchInput second"
-                           placeholder="Project"
-                           formControlName="SearchProjectInput"
-                           (input)="onChangedSearchProjectInput($event.target.value)" />
+                    <mat-form-field class="example-full-width">
+                        <input matInput
+                            placeholder="Dependency Library"
+                            formControlName="SearchDepInput"
+                            (input)="onChangedSearchDepInput($event.target.value)" >
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <input matInput
+                            placeholder="Project"
+                            formControlName="SearchProjectInput"
+                            (input)="onChangedSearchProjectInput($event.target.value)" >
+                    </mat-form-field>
+
                 </div>
             </div>
 
@@ -56,8 +62,10 @@
 
     </div>
     <div class="tableLegend">
-        <button class="btn"
+        <button mat-raised-button color="warn"
                 (click)="onClickedShowHiddenTableLegend()"> Table legend </button>
+                
+
         <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
 
         <ng-template #showLegend>
@@ -74,7 +82,6 @@
                 <p>Please click on "Table legend" button for showing/hidden table legend.</p>
             </div>
         </ng-template>
-
     </div>
 </form>
 

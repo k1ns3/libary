@@ -16,7 +16,7 @@ export class AuthenticationService {
     constructor(
         private readonly _http: HttpClient,
     ) {
-        this._configUrl = `https://npm.scout-gps.ru:4873/-/verdaccio`;
+        this._configUrl = `https://npm.scout-corp.com:4873/-/verdaccio`;
     }
 
     login(username: string, password: string) {

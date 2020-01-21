@@ -33,5 +33,10 @@
         "name": "scout-validator (dev)",
         "id": 151,
         "default_branch": "dev"
+    },
+    {
+        "name": "sma-frontend",
+        "id": 220,
+        "default_branch": "dev"
     }
 ]
