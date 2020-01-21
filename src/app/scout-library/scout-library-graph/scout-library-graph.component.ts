@@ -89,11 +89,11 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
 
     onSetNodes(event: MatSelectChange) {
         const parsedSelectedLib: string[] = event.value.map(v => v.split(' ')[0]); 
-        //console.log(parsedSelectedLib);
+        // console.log(parsedSelectedLib);
         // console.log(this.sourceGraphLinksData, this.graphNodesData )
         this.graphNodesData =  this.sourceGraphNodesData.filter(v => parsedSelectedLib.find(k => k === v.id));
-        // this.graphLinksData =  this.sourceGraphLinksData.filter(v => v.label !== v.id);
-        console.log(this.graphLinksData);
+        this.graphLinksData =  this.sourceGraphLinksData.filter(link => parsedSelectedLib.find(w => w === link.target));
+        // console.log(this.graphLinksData);
         this._cdRef.detectChanges();
     }
 
