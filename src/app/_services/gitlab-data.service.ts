@@ -32,6 +32,6 @@ export class GitlabDataService {
 
     private getData({ id, branch, token }: { id; branch; token; }): Observable<any> {
         // tslint:disable-next-line:max-line-length
-        return this._http.get(`https://vmgitlab01.scout-gps.ru:1443/api/v4/projects/${id}/repository/files/package.json/raw?ref=${branch}&private_token=${token}`);
+        return this._http.get(`https://git.scout-corp.com/api/v4/projects/${id}/repository/files/package.json/raw?ref=${branch}&private_token=${token}`);
     }
 }

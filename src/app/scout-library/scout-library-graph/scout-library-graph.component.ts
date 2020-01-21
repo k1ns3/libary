@@ -1,17 +1,15 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { MatSelectChange } from '@angular/material/select';
 
 import { Subject, BehaviorSubject, Observable, combineLatest  } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import * as shape from 'd3-shape';
 
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/root-store/root.store';
 import { GetData } from 'src/app/root-store/actions/data.actions';
 import { getGraphNodesData, getGraphLinksData } from 'src/app/root-store/selectors/grafh.selectors';
-import { Layout } from '@swimlane/ngx-graph/lib/models';
-
 
 
 @Component({
@@ -27,27 +25,29 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     center$: Subject<boolean>;
     zoomToFit$: Subject<boolean>;
     update$: Subject<boolean>;
+    
     draggingEnabled: Subject<boolean>;
     graphLinksData$: Observable<any>;
     graphNodesData$: Observable<any>;
+
     orientation = 'LR';
     fitContainer: boolean;
+    
+    selectedValue: string;
 
-
-
-    selectFormControl = new FormControl('', Validators.required);
-
-    public graphNodesData : Object;
-    public graphLinksData : Object;
+    public graphNodesData : object[];
+    public graphLinksData : object[];
     public sourceGraphLinksData : any;
     public sourceGraphNodesData: any;
-
-    layout: String | Layout = 'Browse Detected';
-
     
+    get isPackages(): boolean {
+        return !!(this.graphNodesData && this.graphLinksData);
+    }
+
     constructor(
-        private _store: Store<AppState>,
-        ) {
+        private readonly _store: Store<AppState>,
+        private readonly _cdRef: ChangeDetectorRef
+    ) {
             this.curve = shape.curveCardinal;
             this.fitContainer = true;            
             this._destroy$ = new Subject(); 
@@ -58,28 +58,14 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new GetData());
 
-        }
+    }
 
     ngOnInit() {
         this.graphNodesData$ = this._store.select(getGraphNodesData);
         this.graphLinksData$ = this._store.select(getGraphLinksData);
 
-        combineLatest(this.graphNodesData$, this.graphLinksData$)
-            .pipe(takeUntil(this._destroy$))
-            .subscribe(([graphNodesData, graphLinksData ]) => {
-                    if(graphNodesData) { 
-                        this.sourceGraphNodesData = graphNodesData;
-                        this.graphNodesData =  this.sourceGraphNodesData;
-                    }
-                    if(graphLinksData) {
-                        this.sourceGraphLinksData = graphLinksData;
-                        this.graphLinksData =  this.sourceGraphLinksData;
-                    }
-            });
-        this._store.dispatch(new GetData());
+        this.initData();
     }
-        
-
 
     ngOnDestroy() {
         this._destroy$.next();
@@ -89,19 +75,40 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
         this.draggingEnabled.next();
     }
 
-    zoomToFit() {
+    onZoomToFit() {
         this.zoomToFit$.next(true);
     }
 
-    center() {
+    onCenter() {
         this.center$.next(true);
     }
     
-    update(){
+    onUpdate(){
         this.update$.next(true);
     }
 
-    setLayout(event: Event) {
-        event = this.sourceGraphNodesData.find(l => l.value === event);
+    onSetNodes(event: MatSelectChange) {
+        const parsedSelectedLib: string[] = event.value.map(v => v.split(' ')[0]); 
+        //console.log(parsedSelectedLib);
+        // console.log(this.sourceGraphLinksData, this.graphNodesData )
+        this.graphNodesData =  this.sourceGraphNodesData.filter(v => parsedSelectedLib.find(k => k === v.id));
+        // this.graphLinksData =  this.sourceGraphLinksData.filter(v => v.label !== v.id);
+        console.log(this.graphLinksData);
+        this._cdRef.detectChanges();
+    }
+
+    private initData(){
+        combineLatest(this.graphNodesData$, this.graphLinksData$)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(([graphNodesData, graphLinksData]) => {
+                    if(graphNodesData) {
+                        this.sourceGraphNodesData = graphNodesData;
+                        this.graphNodesData =  this.sourceGraphNodesData;
+                    }
+                    if(graphLinksData) {
+                        this.sourceGraphLinksData = graphLinksData;
+                        this.graphLinksData =  this.sourceGraphLinksData;
+                    }
+            });
     }
 }

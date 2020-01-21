@@ -24,7 +24,7 @@ export class AuthEffects {
         map((action: LogIn) => action._payload),
         switchMap(payload =>
             this._http
-                .get<any>(`https://vmgitlab01.scout-gps.ru:1443/api/v4/user?private_token=${payload.gitlabToken}`)
+                .get<any>(`https://git.scout-corp.com/api/v4/user?private_token=${payload.gitlabToken}`)
                 .pipe(
                     switchMap(() =>
                         this._authService

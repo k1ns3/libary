@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class DataService {
 
-    private readonly _configUrl = `https://npm.scout-gps.ru:4873/-/verdaccio`;
+    private readonly _configUrl = `https://npm.scout-corp.com:4873/-/verdaccio`;
 
     private _data$: Observable<any>;
 
