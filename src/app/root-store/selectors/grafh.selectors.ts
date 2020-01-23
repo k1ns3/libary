@@ -3,7 +3,7 @@ import { getNpmData } from './data.selectors';
 
 export const getGraphNodesData = createSelector(
     getNpmData,
-    (dataset1: Array<Object>) => {
+    (dataset1: Array<Object>,) => {
         return createNodes(dataset1);
     }
 );
@@ -16,8 +16,10 @@ export const getGraphLinksData = createSelector(
 );
 
 function createLinks(data: any[]): Array<Object> {
-    let links = [];
+    let links = []; 
     const libData = data.map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
+    // console.log(data);
+    // console.log(libData);
     for (let i = 0; i < libData.length; i++) {
         if (libData[i].dependencies) {
             for (const item in libData[i].dependencies) {
@@ -39,11 +41,11 @@ function createLinks(data: any[]): Array<Object> {
 
 function createNodes(data: any[]): Array<Object> {
 
-    const generalLibData = data.map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
-
     let depLibData = [];
 
+    const generalLibData = data.map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
     const depArr = data.filter(s => s.dependencies !== undefined).map(v => v.dependencies);
+    
     for (let i = 0; i < depArr.length; i++) {
         for (const prop in depArr[i]) {
             if (depArr[i].hasOwnProperty(prop)) {
@@ -51,12 +53,9 @@ function createNodes(data: any[]): Array<Object> {
             }
         }
     }
-
     let nodesData = [];
     nodesData = depLibData.concat(generalLibData);
-
     const uniqueArray = removedDuplicatesNodes(nodesData, 'id');
-    // console.log(uniqueArray);
     return uniqueArray;
 }
 
@@ -76,6 +75,6 @@ function removedDuplicatesNodes(originalArr: Array<Object>, prop: string): Array
         if (lookupObject.hasOwnProperty(i)) {
             newArray = [...newArray, lookupObject[i]];
         }
-    }
+    }  
     return newArray;
 }

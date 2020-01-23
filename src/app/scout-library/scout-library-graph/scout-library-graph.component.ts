@@ -88,12 +88,50 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     }
 
     onSetNodes(event: MatSelectChange) {
-        const parsedSelectedLib: string[] = event.value.map(v => v.split(' ')[0]); 
-        // console.log(parsedSelectedLib);
-        // console.log(this.sourceGraphLinksData, this.graphNodesData )
-        this.graphNodesData =  this.sourceGraphNodesData.filter(v => parsedSelectedLib.find(k => k === v.id));
-        this.graphLinksData =  this.sourceGraphLinksData.filter(link => parsedSelectedLib.find(w => w === link.target));
-        // console.log(this.graphLinksData);
+        const parsedSelectedLib: string[] = event.value.map((v: string) => v.split(' ')[0]); 
+        console.log(parsedSelectedLib, this.sourceGraphNodesData, this.sourceGraphLinksData);
+        this.graphNodesData =  this.sourceGraphNodesData.filter((v: { id: string; }) => parsedSelectedLib.find(k => k === v.id));
+        this.graphLinksData =  this.sourceGraphLinksData.filter((link: { target: string; }) => parsedSelectedLib.find(w => w === link.target));
+        console.log(parsedSelectedLib, this.graphNodesData, this.graphLinksData);
+        // this.graphNodesData = [
+        //     {
+        //       id: 'first',
+        //       label: 'A'
+        //     }, {
+        //       id: 'second',
+        //       label: 'B'
+        //     }, {
+        //       id: 'c1',
+        //       label: 'C1'
+        //     }, {
+        //       id: 'c2',
+        //       label: 'C2'
+        //     }
+        //   ];
+
+        //   this.graphLinksData = [
+        //     {
+        //       id: 'a',
+        //       source: 'first',
+        //       target: 'second',
+        //       label: 'is parent of'
+        //     }, {
+        //       id: 'b',
+        //       source: 'first',
+        //       target: 'c1',
+        //       label: 'custom label'
+        //     }, {
+        //       id: 'c',
+        //       source: 'first',
+        //       target: 'c1',
+        //       label: 'custom label'
+        //     }, {
+        //       id: 'd',
+        //       source: 'first',
+        //       target: 'c2',
+        //       label: 'custom label'
+        //     }
+        //   ];
         this._cdRef.detectChanges();
     }
 
