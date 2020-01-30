@@ -7,8 +7,8 @@
                 <mat-label>Select an option</mat-label>
                 <mat-select 
                 [ngModel]="selected"
-                (selectionChange)="onSetNodes($event)" multiple >
-                    <mat-option *ngFor="let i of graphNodesData" [value]="i.id">
+                (selectionChange)="onSetNodes($event)" multiple>
+                    <mat-option *ngFor="let i of graphOptions" [value]="i.id">
                         {{i.label}}
                     </mat-option>
                 </mat-select>

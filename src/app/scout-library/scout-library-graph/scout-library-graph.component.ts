@@ -9,7 +9,8 @@ import * as shape from 'd3-shape';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/root-store/root.store';
 import { GetData } from 'src/app/root-store/actions/data.actions';
-import { getGraphNodesData, getGraphLinksData } from 'src/app/root-store/selectors/grafh.selectors';
+import { getGraphNodesData, getGraphLinksData, getOptions, selectedGraph } from 'src/app/root-store/selectors/grafh.selectors';
+import { SelectedGraph } from 'src/app/root-store/actions/graph.actions';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { getGraphNodesData, getGraphLinksData } from 'src/app/root-store/selecto
 export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     private readonly _destroy$: Subject<any>;
 
+    private _graphOptions: any;
     readonly curve: any;
 
     center$: Subject<boolean>;
@@ -44,6 +46,10 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
         return !!(this.graphNodesData && this.graphLinksData);
     }
 
+    get graphOptions(){
+       if(this._graphOptions && this._graphOptions.length){ return this._graphOptions; } 
+    }
+
     constructor(
         private readonly _store: Store<AppState>,
         private readonly _cdRef: ChangeDetectorRef
@@ -63,6 +69,15 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.graphNodesData$ = this._store.select(getGraphNodesData);
         this.graphLinksData$ = this._store.select(getGraphLinksData);
+
+        // todo : записывать в ngModal селекта значения из стейта 
+        // this._store.select(selectedGraph)
+        //     .pipe(takeUntil(this._destroy$))
+        //     .subscribe(optionsList => this.selectedValue = optionsList.join(','));
+
+        this._store.select(getOptions)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(optionsList => this._graphOptions = optionsList);
 
         this.initData();
     }
@@ -88,57 +103,32 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     }
 
     onSetNodes(event: MatSelectChange) {
-        const parsedSelectedLib: string[] = event.value.map((v: string) => v.split(' ')[0]); 
-        console.log(parsedSelectedLib, this.sourceGraphNodesData, this.sourceGraphLinksData);
-        this.graphNodesData =  this.sourceGraphNodesData.filter((v: { id: string; }) => parsedSelectedLib.find(k => k === v.id));
-        this.graphLinksData =  this.sourceGraphLinksData.filter((link: { target: string; }) => parsedSelectedLib.find(w => w === link.target));
-        console.log(parsedSelectedLib, this.graphNodesData, this.graphLinksData);
-        // this.graphNodesData = [
-        //     {
-        //       id: 'first',
-        //       label: 'A'
-        //     }, {
-        //       id: 'second',
-        //       label: 'B'
-        //     }, {
-        //       id: 'c1',
-        //       label: 'C1'
-        //     }, {
-        //       id: 'c2',
-        //       label: 'C2'
-        //     }
-        //   ];
+        // console.log(event.value);
+        // console.log(this.sourceGraphNodesData, this.sourceGraphLinksData);
 
-        //   this.graphLinksData = [
-        //     {
-        //       id: 'a',
-        //       source: 'first',
-        //       target: 'second',
-        //       label: 'is parent of'
-        //     }, {
-        //       id: 'b',
-        //       source: 'first',
-        //       target: 'c1',
-        //       label: 'custom label'
-        //     }, {
-        //       id: 'c',
-        //       source: 'first',
-        //       target: 'c1',
-        //       label: 'custom label'
-        //     }, {
-        //       id: 'd',
-        //       source: 'first',
-        //       target: 'c2',
-        //       label: 'custom label'
-        //     }
-        //   ];
-        this._cdRef.detectChanges();
+        // this.graphNodesData =  this.sourceGraphNodesData.filter((v: { id: string; }) => parsedSelectedLib.find(k => k === v.id));
+        // this.graphLinksData =  this.sourceGraphLinksData.filter((link: { target: string; }) => parsedSelectedLib.find(w => w === link.target));
+
+        // console.log(parsedSelectedLib, this.graphNodesData, this.graphLinksData);
+        
+        this._store.dispatch(new SelectedGraph(event.value));
+
+        // this._store.dispatch(new DataSetGraphNodes(this.sourceGraphNodesData
+        //     .filter((v: { id: string; }) => parsedSelectedLib
+        //     .find(k => k === v.id))));
+
+        // this._store.dispatch(new DataSetGraphLinks(this.sourceGraphLinksData
+        //     .filter((link: { target: string; }) => parsedSelectedLib
+        //     .find(w => w === link.target))));
+        
+        // this._cdRef.detectChanges();
     }
 
     private initData(){
         combineLatest(this.graphNodesData$, this.graphLinksData$)
             .pipe(takeUntil(this._destroy$))
             .subscribe(([graphNodesData, graphLinksData]) => {
+                    console.log(`new Data`);
                     if(graphNodesData) {
                         this.sourceGraphNodesData = graphNodesData;
                         this.graphNodesData =  this.sourceGraphNodesData;

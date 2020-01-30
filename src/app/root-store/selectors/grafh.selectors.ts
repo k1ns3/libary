@@ -1,21 +1,42 @@
+import { AppState } from '../root.store';
 import { createSelector } from '@ngrx/store';
 import { getNpmData } from './data.selectors';
+import { graphData } from '../state/graph.models';
 
-export const getGraphNodesData = createSelector(
+export const selectFeature = (state: AppState) => state.app.graph;
+
+
+export const selectedGraph = createSelector( //Выбранное в селекте
+    selectFeature,
+    (state: graphData) => state.selectGraph
+);
+
+export const getOptions = createSelector( //Вывод нод в селект 
     getNpmData,
-    (dataset1: Array<Object>,) => {
-        return createNodes(dataset1);
+    (dataset1: Array<Object>) => createOptions(dataset1)
+);
+
+export const getGraphNodesData = createSelector( 
+    getNpmData,
+    selectedGraph,
+    (dataset1: Array<Object>, selectedGraph: string[]) => {
+        return createNodes(dataset1, selectedGraph);
     }
 );
 
 export const getGraphLinksData = createSelector(
     getNpmData,
-    (dataset1: Array<Object>) => {
-        return createLinks(dataset1);
+    selectedGraph,
+    (dataset1: Array<Object>, selectedGraph: string[]) => {
+        return createLinks(dataset1, selectedGraph);
     }
 );
 
-function createLinks(data: any[]): Array<Object> {
+function createOptions(data: any[]) {
+    return data.map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`}));
+}
+
+function createLinks(data: any[], selectedNodes: string[]): Array<Object> {
     let links = []; 
     const libData = data.map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
     // console.log(data);
@@ -35,11 +56,14 @@ function createLinks(data: any[]): Array<Object> {
             }
         }
     }
-    // console.log(links);
+    // todo: Если это сделать будет строить линки, без Nodes (сделать для нод)
+    
+    // links.filter(w => selectedNodes.find(word => word === w.target));
+    // console.log(links.filter(w => selectedNodes.find(word => word === w.target)));
     return links;
 }
 
-function createNodes(data: any[]): Array<Object> {
+function createNodes(data: any[], selectedNodes: string[]): Array<Object> {
 
     let depLibData = [];
 
@@ -56,6 +80,8 @@ function createNodes(data: any[]): Array<Object> {
     let nodesData = [];
     nodesData = depLibData.concat(generalLibData);
     const uniqueArray = removedDuplicatesNodes(nodesData, 'id');
+    // uniqueArray.filter(v => selectedNodes.find(k => k === v.name));
+    // console.log(uniqueArray);
     return uniqueArray;
 }
 
