@@ -102,26 +102,8 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
         this.update$.next(true);
     }
 
-    onSetNodes(event: MatSelectChange) {
-        // console.log(event.value);
-        // console.log(this.sourceGraphNodesData, this.sourceGraphLinksData);
-
-        // this.graphNodesData =  this.sourceGraphNodesData.filter((v: { id: string; }) => parsedSelectedLib.find(k => k === v.id));
-        // this.graphLinksData =  this.sourceGraphLinksData.filter((link: { target: string; }) => parsedSelectedLib.find(w => w === link.target));
-
-        // console.log(parsedSelectedLib, this.graphNodesData, this.graphLinksData);
-        
+    onSetNodes(event: MatSelectChange) {        
         this._store.dispatch(new SelectedGraph(event.value));
-
-        // this._store.dispatch(new DataSetGraphNodes(this.sourceGraphNodesData
-        //     .filter((v: { id: string; }) => parsedSelectedLib
-        //     .find(k => k === v.id))));
-
-        // this._store.dispatch(new DataSetGraphLinks(this.sourceGraphLinksData
-        //     .filter((link: { target: string; }) => parsedSelectedLib
-        //     .find(w => w === link.target))));
-        
-        // this._cdRef.detectChanges();
     }
 
     private initData(){
@@ -129,6 +111,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this._destroy$))
             .subscribe(([graphNodesData, graphLinksData]) => {
                     console.log(`new Data`);
+                    // this.update$.next(true);
                     if(graphNodesData) {
                         this.sourceGraphNodesData = graphNodesData;
                         this.graphNodesData =  this.sourceGraphNodesData;
@@ -137,6 +120,9 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
                         this.sourceGraphLinksData = graphLinksData;
                         this.graphLinksData =  this.sourceGraphLinksData;
                     }
+
+                    
+                    // this._cdRef.markForCheck();
             });
     }
 }
