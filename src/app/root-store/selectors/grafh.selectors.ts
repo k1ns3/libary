@@ -33,12 +33,12 @@ export const getGraphLinksData = createSelector(
 );
 
 function createOptions(data: any[]) {
-    return data.map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`}));
+    return data.map(v => ({ id: v.name, label: `${v.name} v${v.version}`}));
 }
 
 function createLinks(data: any[], selectedNodes: string[]): Array<Object> {
     let links = []; 
-    const libData = data.map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
+    const libData = data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id))).map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
     // console.log(data);
     // console.log(libData);
     for (let i = 0; i < libData.length; i++) {
@@ -57,9 +57,9 @@ function createLinks(data: any[], selectedNodes: string[]): Array<Object> {
         }
     }
     // todo: Если это сделать будет строить линки, без Nodes (сделать для нод)
-    
     // links.filter(w => selectedNodes.find(word => word === w.target));
-    // console.log(links.filter(w => selectedNodes.find(word => word === w.target)));
+    
+    console.log(`links`, links);
     return links;
 }
 
@@ -67,8 +67,14 @@ function createNodes(data: any[], selectedNodes: string[]): Array<Object> {
 
     let depLibData = [];
 
-    const generalLibData = data.map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
-    const depArr = data.filter(s => s.dependencies !== undefined).map(v => v.dependencies);
+    console.log(`data`, data);
+    const generalLibData = data
+        .filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)))
+        .map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
+    console.log(`generalLibData`, generalLibData);
+
+    const depArr = data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)) && s.dependencies !== undefined).map(v => v.dependencies);
+    console.log(`depArr`, depArr,`depArr filter`, data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)) && s.dependencies !== undefined).map(v => v.dependencies));
     
     for (let i = 0; i < depArr.length; i++) {
         for (const prop in depArr[i]) {
@@ -78,10 +84,11 @@ function createNodes(data: any[], selectedNodes: string[]): Array<Object> {
         }
     }
     let nodesData = [];
+    console.log(`depLibData`,depLibData);
     nodesData = depLibData.concat(generalLibData);
-    const uniqueArray = removedDuplicatesNodes(nodesData, 'id');
-    // uniqueArray.filter(v => selectedNodes.find(k => k === v.name));
-    // console.log(uniqueArray);
+    const uniqueArray: any = removedDuplicatesNodes(nodesData, 'id');
+
+    console.log(`uniqueArray`, uniqueArray, uniqueArray.filter(s=> selectedNodes.find(w => s.id.includes(normId(w) || s.id))));
     return uniqueArray;
 }
 
@@ -101,6 +108,6 @@ function removedDuplicatesNodes(originalArr: Array<Object>, prop: string): Array
         if (lookupObject.hasOwnProperty(i)) {
             newArray = [...newArray, lookupObject[i]];
         }
-    }  
+    }
     return newArray;
 }
