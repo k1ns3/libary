@@ -5,7 +5,6 @@ import { graphData } from '../state/graph.models';
 
 export const selectFeature = (state: AppState) => state.app.graph;
 
-
 export const selectedGraph = createSelector( //Выбранное в селекте
     selectFeature,
     (state: graphData) => state.selectGraph
@@ -38,58 +37,83 @@ function createOptions(data: any[]) {
 
 function createLinks(data: any[], selectedNodes: string[]): Array<Object> {
     let links = []; 
-    const libData = data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id))).map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
-    // console.log(data);
-    // console.log(libData);
-    for (let i = 0; i < libData.length; i++) {
-        if (libData[i].dependencies) {
-            for (const item in libData[i].dependencies) {
-                if (libData[i].dependencies.hasOwnProperty(item)) {
-                    links = [...links,
-                    {
-                        source: `${libData[i].id}`,
-                        target: `${normId(item)}`,
-                        label: `v: ${libData[i].dependencies[item]}`
+    if(selectedNodes.length <= 0){
+        const libData = data.map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
+        for (let i = 0; i < libData.length; i++) {
+            if (libData[i].dependencies) {
+                for (const item in libData[i].dependencies) {
+                    if (libData[i].dependencies.hasOwnProperty(item)) {
+                        links = [...links,
+                        {
+                            source: `${libData[i].id}`,
+                            target: `${normId(item)}`,
+                            label: `v: ${libData[i].dependencies[item]}`
+                        }
+                        ];
                     }
-                    ];
                 }
             }
         }
+        return links;
+    }else{
+        const libData = data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id))).map(v => ({ id: normId(v.name), dependencies: v.dependencies }));
+        for (let i = 0; i < libData.length; i++) {
+            if (libData[i].dependencies) {
+                for (const item in libData[i].dependencies) {
+                    if (libData[i].dependencies.hasOwnProperty(item)) {
+                        links = [...links,
+                        {
+                            source: `${libData[i].id}`,
+                            target: `${normId(item)}`,
+                            label: `v: ${libData[i].dependencies[item]}`
+                        }
+                        ];
+                    }
+                }
+            }
+        } 
+        return links;
     }
-    // todo: Если это сделать будет строить линки, без Nodes (сделать для нод)
-    // links.filter(w => selectedNodes.find(word => word === w.target));
-    
-    console.log(`links`, links);
-    return links;
 }
 
 function createNodes(data: any[], selectedNodes: string[]): Array<Object> {
 
     let depLibData = [];
+    if(selectedNodes.length <= 0){
+        const generalLibData = data
+            .map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
+        const depArr = data.filter(s => s.dependencies !== undefined).map(v => v.dependencies);
 
-    console.log(`data`, data);
-    const generalLibData = data
-        .filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)))
-        .map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
-    console.log(`generalLibData`, generalLibData);
-
-    const depArr = data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)) && s.dependencies !== undefined).map(v => v.dependencies);
-    console.log(`depArr`, depArr,`depArr filter`, data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)) && s.dependencies !== undefined).map(v => v.dependencies));
-    
-    for (let i = 0; i < depArr.length; i++) {
-        for (const prop in depArr[i]) {
-            if (depArr[i].hasOwnProperty(prop)) {
-                depLibData = [...depLibData, { id: normId(prop), label: prop, isClustered: true }];
+        for (let i = 0; i < depArr.length; i++) {
+            for (const prop in depArr[i]) {
+                if (depArr[i].hasOwnProperty(prop)) {
+                    depLibData = [...depLibData, { id: normId(prop), label: prop, isClustered: true }];
+                }
             }
         }
-    }
-    let nodesData = [];
-    console.log(`depLibData`,depLibData);
-    nodesData = depLibData.concat(generalLibData);
-    const uniqueArray: any = removedDuplicatesNodes(nodesData, 'id');
+        let nodesData = [];
+        nodesData = depLibData.concat(generalLibData);
+        const uniqueArray: any = removedDuplicatesNodes(nodesData, 'id');        
+        return uniqueArray;
 
-    console.log(`uniqueArray`, uniqueArray, uniqueArray.filter(s=> selectedNodes.find(w => s.id.includes(normId(w) || s.id))));
-    return uniqueArray;
+    }else{
+        const generalLibData = data
+            .filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)))
+            .map(v => ({ id: normId(v.name), label: `${v.name} v${v.version}`, isClustered: true }));
+        const depArr = data.filter(s=> selectedNodes.find(w => s.name.includes(w || s.id)) && s.dependencies !== undefined).map(v => v.dependencies);
+
+        for (let i = 0; i < depArr.length; i++) {
+            for (const prop in depArr[i]) {
+                if (depArr[i].hasOwnProperty(prop)) {
+                    depLibData = [...depLibData, { id: normId(prop), label: prop, isClustered: true }];
+                }
+            }
+        }
+        let nodesData = [];
+        nodesData = depLibData.concat(generalLibData);
+        const uniqueArray: any = removedDuplicatesNodes(nodesData, 'id');        
+        return uniqueArray;
+    }
 }
 
 function normId(id: string): string {

@@ -119,9 +119,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
                     if(graphLinksData) {
                         this.sourceGraphLinksData = graphLinksData;
                         this.graphLinksData =  this.sourceGraphLinksData;
-                    }
-
-                    
+                    }     
                     // this._cdRef.markForCheck();
             });
     }
