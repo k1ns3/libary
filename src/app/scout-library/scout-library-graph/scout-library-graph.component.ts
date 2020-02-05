@@ -35,7 +35,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     orientation = 'LR';
     fitContainer: boolean;
     
-    selectedValue: string;
+    public selectedValue: string [];
 
     public graphNodesData : object[];
     public graphLinksData : object[];
@@ -63,17 +63,11 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
             this.update$ = new BehaviorSubject(true);
 
             this._store.dispatch(new GetData());
-
     }
 
     ngOnInit() {
         this.graphNodesData$ = this._store.select(getGraphNodesData);
         this.graphLinksData$ = this._store.select(getGraphLinksData);
-
-        // todo : записывать в ngModal селекта значения из стейта 
-        // this._store.select(selectedGraph)
-        //     .pipe(takeUntil(this._destroy$))
-        //     .subscribe(optionsList => this.selectedValue = optionsList.join(','));
 
         this._store.select(getOptions)
             .pipe(takeUntil(this._destroy$))
@@ -104,14 +98,15 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
 
     onSetNodes(event: MatSelectChange) {        
         this._store.dispatch(new SelectedGraph(event.value));
+
+        console.log(this.selectedValue);
     }
 
     private initData(){
         combineLatest(this.graphNodesData$, this.graphLinksData$)
             .pipe(takeUntil(this._destroy$))
             .subscribe(([graphNodesData, graphLinksData]) => {
-                    console.log(`new Data`);
-                    // this.update$.next(true);
+                    // console.log(`new Data`);
                     if(graphNodesData) {
                         this.sourceGraphNodesData = graphNodesData;
                         this.graphNodesData =  this.sourceGraphNodesData;
@@ -119,8 +114,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
                     if(graphLinksData) {
                         this.sourceGraphLinksData = graphLinksData;
                         this.graphLinksData =  this.sourceGraphLinksData;
-                    }     
-                    // this._cdRef.markForCheck();
+                    }
             });
     }
 }
