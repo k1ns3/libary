@@ -4,6 +4,7 @@ import { ProjectStore } from './state/project.table.model';
 import { DepStore } from './state/dep.table.model';
 import { User } from './state/user.model';
 import { Data } from './state/data.model';
+import { graphData } from './state/graph.models';
 
 import { reducer as authReducer } from './reducers/auth.reducers';
 import { dataReducer } from './reducers/data.reducers';
@@ -11,6 +12,8 @@ import { projectTableReducer } from './reducers/project.table.reducer';
 import { depTableReducer } from './reducers/dep.table.reducer';
 
 import { StateSerializatorsMap, combineSerializators, storageSyncReducer } from './local-storage.reducer';
+import { selectGraphReducer } from './reducers/graph.reducers';
+
 
 export interface AppState {
     app: {
@@ -18,6 +21,7 @@ export interface AppState {
         auth: User;
         data: Data;
         depTablesForm: DepStore;
+        graph: graphData;
     };
 }
 
@@ -27,6 +31,7 @@ export interface AppStateJson {
         auth: User;
         data: Data;
         depTablesForm: DepStore;
+        graph: graphData;
     };
 }
 
@@ -35,7 +40,8 @@ export const reducers: ActionReducerMap<AppState> = {
         projectTablesForm: projectTableReducer,
         auth: authReducer,
         data: dataReducer,
-        depTablesForm: depTableReducer
+        depTablesForm: depTableReducer,
+        graph: selectGraphReducer
     })
 };
 
@@ -56,7 +62,8 @@ const serializators: StateSerializatorsMap<AppState, AppStateJson> = {
             return authStorage;
         },
         data: dataSets => dataSets,
-        depTablesForm: depTablesFormData => depTablesFormData
+        depTablesForm: depTablesFormData => depTablesFormData,
+        graph: graphdata => graphdata  
     })
 };
 
@@ -65,7 +72,8 @@ const deserializators: StateSerializatorsMap<AppStateJson, AppState> = {
         projectTablesForm: projectTablesFormData => projectTablesFormData,
         auth: authData => authData,
         data: dataSets => dataSets,
-        depTablesForm: depTablesFormData => depTablesFormData
+        depTablesForm: depTablesFormData => depTablesFormData,
+        graph: graphdata => graphdata  
     })
 };
 

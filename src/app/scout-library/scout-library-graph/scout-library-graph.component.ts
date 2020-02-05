@@ -9,7 +9,8 @@ import * as shape from 'd3-shape';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/root-store/root.store';
 import { GetData } from 'src/app/root-store/actions/data.actions';
-import { getGraphNodesData, getGraphLinksData } from 'src/app/root-store/selectors/grafh.selectors';
+import { getGraphNodesData, getGraphLinksData, getOptions, selectedGraph } from 'src/app/root-store/selectors/grafh.selectors';
+import { SelectedGraph } from 'src/app/root-store/actions/graph.actions';
 
 
 @Component({
@@ -20,6 +21,7 @@ import { getGraphNodesData, getGraphLinksData } from 'src/app/root-store/selecto
 export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     private readonly _destroy$: Subject<any>;
 
+    private _graphOptions: any;
     readonly curve: any;
 
     center$: Subject<boolean>;
@@ -33,7 +35,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     orientation = 'LR';
     fitContainer: boolean;
     
-    selectedValue: string;
+    public selectedValue: string [];
 
     public graphNodesData : object[];
     public graphLinksData : object[];
@@ -42,6 +44,10 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
     
     get isPackages(): boolean {
         return !!(this.graphNodesData && this.graphLinksData);
+    }
+
+    get graphOptions(){
+       if(this._graphOptions && this._graphOptions.length){ return this._graphOptions; } 
     }
 
     constructor(
@@ -57,12 +63,15 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
             this.update$ = new BehaviorSubject(true);
 
             this._store.dispatch(new GetData());
-
     }
 
     ngOnInit() {
         this.graphNodesData$ = this._store.select(getGraphNodesData);
         this.graphLinksData$ = this._store.select(getGraphLinksData);
+
+        this._store.select(getOptions)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(optionsList => this._graphOptions = optionsList);
 
         this.initData();
     }
@@ -87,20 +96,17 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
         this.update$.next(true);
     }
 
-    onSetNodes(event: MatSelectChange) {
-        const parsedSelectedLib: string[] = event.value.map(v => v.split(' ')[0]); 
-        // console.log(parsedSelectedLib);
-        // console.log(this.sourceGraphLinksData, this.graphNodesData )
-        this.graphNodesData =  this.sourceGraphNodesData.filter(v => parsedSelectedLib.find(k => k === v.id));
-        this.graphLinksData =  this.sourceGraphLinksData.filter(link => parsedSelectedLib.find(w => w === link.target));
-        // console.log(this.graphLinksData);
-        this._cdRef.detectChanges();
+    onSetNodes(event: MatSelectChange) {        
+        this._store.dispatch(new SelectedGraph(event.value));
+
+        console.log(this.selectedValue);
     }
 
     private initData(){
         combineLatest(this.graphNodesData$, this.graphLinksData$)
             .pipe(takeUntil(this._destroy$))
             .subscribe(([graphNodesData, graphLinksData]) => {
+                    // console.log(`new Data`);
                     if(graphNodesData) {
                         this.sourceGraphNodesData = graphNodesData;
                         this.graphNodesData =  this.sourceGraphNodesData;

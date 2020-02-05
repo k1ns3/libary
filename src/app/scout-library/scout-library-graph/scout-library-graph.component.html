@@ -4,17 +4,17 @@
 
         <div class="select-block">
             <mat-form-field>
+
                 <mat-label>Select an option</mat-label>
                 <mat-select 
-                [ngModel]="selected"
-                (selectionChange)="onSetNodes($event)" multiple >
-                    <mat-option *ngFor="let i of graphNodesData" [value]="i.id">
+                [(ngModel)]="selectedValue"
+                (selectionChange)="onSetNodes($event)" multiple>
+                    <mat-option *ngFor="let i of graphOptions" [value]="i.id">
                         {{i.label}}
                     </mat-option>
                 </mat-select>
               </mat-form-field>
-
-              <p>You selected: {{selected}}</p>
+              <p>You selected: {{ selectedValue }}</p>
         </div>
         
         <div class="example-button-row">

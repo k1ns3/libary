@@ -151,5 +151,4 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
     onClickedShowHiddenTableLegend() {
         this._store.dispatch({ type: actions.SHOW_TABLE_LEGEND_PROJECT });
     }
-
 }
