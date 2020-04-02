@@ -8,9 +8,9 @@ describe('ScoutLibraryTableDeplibComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScoutLibraryTableDeplibComponent ]
+      declarations: [ScoutLibraryTableDeplibComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -20,6 +20,6 @@ describe('ScoutLibraryTableDeplibComponent', () => {
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component)
   });
 });
