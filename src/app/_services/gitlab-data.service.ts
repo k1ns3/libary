@@ -21,7 +21,7 @@ export class GitlabDataService {
                 switchMap(configs =>
                     combineLatest(
                         configs.map(config =>
-                            this.getData({ id: config.id, branch: config.default_branch, token }).pipe(
+                            this.getData({ id: config.id, branch: config.default_branch }).pipe(
                                 map(project => Object.assign(project, { name: config.name }))
                             )
                         )
@@ -30,8 +30,8 @@ export class GitlabDataService {
             );
     }
 
-    private getData({ id, branch, token }: { id; branch; token; }): Observable<any> {
+    private getData({ id, branch }: { id; branch; }): Observable<any> {
         // tslint:disable-next-line:max-line-length
-        return this._http.get(`https://git.scout-corp.com/api/v4/projects/${id}/repository/files/package.json/raw?ref=${branch}&private_token=${token}`);
+        return this._http.get(`https://git.scout-corp.com/api/v4/projects/${id}/repository/files/package.json/raw?ref=${branch}&private_token=T5FEbc6Yji_N8wGzsBHo`);
     }
 }
