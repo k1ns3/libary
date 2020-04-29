@@ -3,66 +3,35 @@
         <h2>Log In</h2>
     </div>
     <div id="login_form">
-        <form [formGroup]="loginForm"
-              (ngSubmit)="onSubmit()">
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="form-group">
+                <mat-label>Username</mat-label>
+                <input matInput type="text" formControlName="username" class="form-control"
+                [ngClass]="{ 'is-invalid': formComtrols.username?.errors }" >
+                <mat-error>
+                   <span *ngIf="formComtrols.username?.errors">Username is required</span>
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field class="form-group">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" formControlName="password" class="form-control"
+                [ngClass]="{ 'is-invalid': formComtrols.password?.errors }" >
+                <mat-error>
+                    <span *ngIf="formComtrols.username?.errors">Password is required</span>
+                </mat-error>
+            </mat-form-field>
+            <br>
             <div class="form-group">
-                <input type="text"
-                       formControlName="username"
-                       placeholder="username"
-                       class="form-control"
-                       [ngClass]="{ 'is-invalid': formComtrols.username?.errors }" />
-                <div *ngIf="formComtrols.username?.errors"
-                     class="invalid-feedback">
-                    <div class="invalid_text"
-                         *ngIf="formComtrols.username.errors.required">Username is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="password"
-                       formControlName="password"
-                       placeholder="password"
-                       class="form-control"
-                       [ngClass]="{ 'is-invalid': formComtrols.password?.errors }" />
-                <div *ngIf="formComtrols.password?.errors"
-                     class="invalid-feedback">
-                    <div class="invalid_text"
-                         *ngIf="formComtrols.password?.errors.required">Password is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="text"
-                       formControlName="gitlabToken"
-                       placeholder="Personal Gitlab token"
-                       class="form-control"
-                       [ngClass]="{ 'is-invalid': formComtrols.gitlabToken?.errors }" />
-
-                <div *ngIf="formComtrols.gitlabToken?.errors"
-                     class="invalid-feedback">
-                    <div class="invalid_text"
-                         *ngIf="formComtrols.gitlabToken?.errors.required">Gitlab token is required</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="date"
-                       formControlName="dateTokenGitlab"
-                       class="form-control"
-                       [ngClass]="{ 'is-invalid': formComtrols.dateTokenGitlab?.errors }" />
-                <div *ngIf="formComtrols.dateTokenGitlab?.errors"
-                     class="invalid-feedback">
-                    <div class="invalid_text"
-                         *ngIf="formComtrols.dateTokenGitlab.errors.required">Date gitlab is required.</div>
-                    <div class="invalid_text"
-                         *ngIf="formComtrols.dateTokenGitlab.errors.validDate"> Error with date gitlab token.</div>
-                </div>
-            </div>
-            <div class="form-group">
-                <button type="submit"
-                        [ngStyle]="loading ? { 'background-color': 'orange','color': 'white'} : null"
-                        class="btn"
-                        [disabled]="loginForm.invalid">Log In</button>
-                <div class="invalid_text"
-                     *ngIf="errorMessage">{{errorMessage}}</div>
+                <button type="submit" [ngStyle]="loading ? { 'background-color': 'orange','color': 'white'} : null"
+                    class="btn" [disabled]="loginForm.invalid">Log In</button>
+                <div class="invalid_text" *ngIf="errorMessage">{{errorMessage}}</div>
             </div>
         </form>
     </div>
 </div>
+
+
+<!-- <div class="example-container">
+
+</div> -->
