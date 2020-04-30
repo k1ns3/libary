@@ -7,34 +7,26 @@
                 </div>
                 <div class="example-button-row">
 
-                    <mat-checkbox
-                        formControlName="NPMСheckboxState"
-                        (change)="onChangedCheckNPM()">
+                    <mat-checkbox formControlName="NPMСheckboxState" (change)="onChangedCheckNPM()">
                         NPM
                     </mat-checkbox>
 
-                    <mat-checkbox
-                        formControlName="NPMScoutСheckboxState"
-                        (change)="onChangedCheckNPMScout()">
+                    <mat-checkbox formControlName="NPMScoutСheckboxState" (change)="onChangedCheckNPMScout()">
                         NPM Scout
                     </mat-checkbox>
 
-                    <mat-checkbox
-                        formControlName="GitLabСheckboxState"
-                        (change)="onChangedCheckGitlab()">
+                    <mat-checkbox formControlName="GitLabСheckboxState" (change)="onChangedCheckGitlab()">
                         Gitlab
                     </mat-checkbox>
 
-                    <button mat-icon-button color="primary"
-                            (click)="onClickedAddedCheckboxSourceFilter()"> + </button>
-                    <button mat-icon-button color="warn"
-                            (click)="onClickedClearedCheckboxSourceFilter()"> - </button>
-                    
+                    <button mat-icon-button color="primary" (click)="onClickedAddedCheckboxSourceFilter()"> + </button>
+                    <button mat-icon-button color="warn" (click)="onClickedClearedCheckboxSourceFilter()"> - </button>
+
 
                 </div>
 
-                    
-                </div>
+
+            </div>
             <div class="searchPanel">
                 <div class="header">
                     <p>Поиск:</p>
@@ -42,17 +34,13 @@
                 <div class="searchForm">
 
                     <mat-form-field class="example-full-width">
-                        <input matInput
-                            placeholder="Библиотека"
-                            formControlName="SearchDepInput"
-                            (input)="onChangedSearchDepInput($event.target.value)" >
+                        <input matInput placeholder="Библиотека" formControlName="SearchDepInput"
+                            (input)="onChangedSearchDepInput($event.target.value)">
                     </mat-form-field>
 
                     <mat-form-field class="example-full-width">
-                        <input matInput
-                            placeholder="По проекту"
-                            formControlName="SearchProjectInput"
-                            (input)="onChangedSearchProjectInput($event.target.value)" >
+                        <input matInput placeholder="По проекту" formControlName="SearchProjectInput"
+                            (input)="onChangedSearchProjectInput($event.target.value)">
                     </mat-form-field>
 
                 </div>
@@ -62,9 +50,8 @@
 
     </div>
     <div class="tableLegend">
-        <button mat-raised-button color="primary"
-                (click)="onClickedShowHiddenTableLegend()"> Описание таблицы </button>
-                
+        <button mat-raised-button color="primary" (click)="onClickedShowHiddenTableLegend()"> Описание таблицы </button>
+
 
         <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
 
@@ -73,7 +60,8 @@
                 <ul class="list">
                     <li class="item"><span class="dot darkRed"></span>Не последняя, по первому числу в версии</li>
                     <li class="item"><span class="dot red"></span>Не последняя, по среднему числу в версии</li>
-                    <li class="item"><span class="dot lightRed"></span>Не последняя, по последнему количеству в версии</li>
+                    <li class="item"><span class="dot lightRed"></span>Не последняя, по последнему количеству в версии
+                    </li>
                 </ul>
             </div>
         </ng-template>
@@ -86,7 +74,7 @@
 </form>
 
 <div class="dataTable">
-    <table class="table table-striped">
+    <!-- <table class="table table-striped">
         <thead>
             <tr>
                 <th>Проект</th>
@@ -97,11 +85,10 @@
         </thead>
 
         <tbody>
-            <ng-container *ngFor="let items of dataTables$ | async">
+            <ng-container *ngFor="let items of dataSourceTable">
                 <ng-container *ngIf="isVisibleSource(items)">
                     <tr *ngFor="let _item of items.dependencies; let i = index">
-                        <td *ngIf="i < 1"
-                            [attr.rowspan]="items.dependencies.length">{{items.lib}}</td>
+                        <td *ngIf="i < 1" [attr.rowspan]="items.dependencies.length">{{items.lib}}</td>
                         <td [attr.class]="getCss(_item)">{{_item.depLib}}</td>
                         <td [attr.class]="getCss(_item)">{{_item.useVersion}}</td>
                         <td [attr.class]="getCss(_item)">{{_item.actualVersion}}</td>
@@ -109,5 +96,30 @@
                 </ng-container>
             </ng-container>
         </tbody>
+    </table> -->
+    <table mat-table [dataSource]="dataSourceTable" class="mat-elevation-z8" multiTemplateDataRows>
+
+        <ng-container matColumnDef="position">
+            <th mat-header-cell *matHeaderCellDef> Проект </th>
+            <td mat-cell *matCellDef="let element"> {{element.lib}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Зависимая библиотека </th>
+            <td mat-cell *matCellDef="let element"> {{element.depLib}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="weight">
+            <th mat-header-cell *matHeaderCellDef> Используемая версия </th>
+            <td mat-cell *matCellDef="let element"> {{element.useVersion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef> Последняя версия </th>
+            <td mat-cell *matCellDef="let element"> {{element.actualVersion}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
