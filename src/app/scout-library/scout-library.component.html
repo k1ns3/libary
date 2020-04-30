@@ -1,24 +1,24 @@
 <div id="routing">
     <button mat-raised-button [matMenuTriggerFor]="menu" color="link">
         <mat-icon>menu</mat-icon>
-        <span>Menu</span>
+        <span>Меню проекта</span>
     </button>
     <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="/graph" routerLinkActive="active">
             <mat-icon>timeline</mat-icon>
-            <span>Graph</span>
+            <span>Графы</span>
         </button>
         <button mat-menu-item routerLink="/projects" routerLinkActive="active">
             <mat-icon>table_chart</mat-icon>
-            <span>Project Table</span>
+            <span>Таблица проектов</span>
         </button>
         <button mat-menu-item routerLink="/dependencies" routerLinkActive="active">
-            <mat-icon>table_chart</mat-icon>
-            <span>Dependency Table</span>
+            <mat-icon>view_list</mat-icon>
+            <span>Таблица зависимостей</span>
         </button>
         <button mat-menu-item id="logout_link" (click)="logOut()" [routerLink]="['/login']">
             <mat-icon>exit_to_app</mat-icon>
-            <span>Logout</span>
+            <span>Выход</span>
         </button>
     </mat-menu>
 </div>

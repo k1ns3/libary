@@ -3,92 +3,53 @@
         <div class="top">
             <div class="filter">
                 <div class="header">
-                    <p>Filters by string background-color:</p>
+                    <p>Фильтровать по:</p>
                 </div>
-                    <div class="example-button-row">
-                        <mat-checkbox
-                            formControlName="MultiVersionСheckboxState"
-                            (change)="onChangedCheckRed()">
-                            Multiple versions
-                        </mat-checkbox>
 
-                        <mat-checkbox
-                            formControlName="NotLatestVersionСheckboxState"
-                            (change)="onChangedCheckOrange()">
-                            Not latest
-                        </mat-checkbox>
+                <div class="example-button-row">
+                    <mat-checkbox formControlName="NPMСheckboxState" (change)="onChangedCheckNPM()">
+                        NPM
+                    </mat-checkbox>
 
-                        <mat-checkbox
-                            formControlName="LatestVersionСheckboxState"
-                            (change)="onChangedCheckBlack()">
-                            Ok
-                        </mat-checkbox>
+                    <mat-checkbox formControlName="NPMScoutСheckboxState" (change)="onChangedCheckNPMScout()">
+                        NPM Scout
+                    </mat-checkbox>
 
-                        <button mat-icon-button color="primary"
-                            (click)="onClickedAddedCheckboxColorFilter()"> + </button>
-                        <button mat-icon-button color="warn"
-                            (click)="onClickedClearedCheckboxColorFilter()"> - </button>
-                    </div>
+                    <mat-checkbox formControlName="GitLabСheckboxState" (change)="onChangedCheckGitlab()">
+                        Gitlab
+                    </mat-checkbox>
+                    <button mat-icon-button color="primary" (click)="onClickedAddedCheckboxSourceFilter()">
+                        +
+                    </button>
+                    <button mat-icon-button color="warn" (click)="onClickedClearedCheckboxSourceFilter()">
+                        -
+                    </button>
+                </div>
             </div>
 
             <div class="searchPanel">
                 <div class="header">
-                    <p>Searching by:</p>
+                    <p>Поиск:</p>
                 </div>
                 <div class="searchForm">
 
                     <mat-form-field class="example-full-width">
-                        <input matInput
-                            placeholder="Dependency Library"
-                            formControlName="SearchDepInput"
-                                (input)="onChangedSearchDepInput($event.target.value)" >
-                    </mat-form-field>   
+                        <input matInput placeholder="Библиотека" formControlName="SearchDepInput"
+                            (input)="onChangedSearchDepInput($event.target.value)">
+                    </mat-form-field>
 
                     <mat-form-field class="example-full-width">
-                        <input matInput
-                            placeholder="Project"
-                            formControlName="SearchProjectInput"
-                            (input)="onChangedSearchProjectInput($event.target.value)" >
-                    </mat-form-field>              
+                        <input matInput placeholder="Проект" formControlName="SearchProjectInput"
+                            (input)="onChangedSearchProjectInput($event.target.value)">
+                    </mat-form-field>
                 </div>
             </div>
         </div>
 
-        <div class="header">
-            <p>Filters by source:</p>
-        </div>
 
-        <div class="example-button-row">
-            <mat-checkbox
-                formControlName="NPMСheckboxState"
-                (change)="onChangedCheckNPM()">
-                NPM
-            </mat-checkbox>           
 
-            <mat-checkbox
-                formControlName="NPMScoutСheckboxState"
-                (change)="onChangedCheckNPMScout()">
-                NPM Scout
-            </mat-checkbox>     
-            
-            <mat-checkbox
-                formControlName="GitLabСheckboxState"
-                (change)="onChangedCheckGitlab()">
-                Gitlab
-            </mat-checkbox>    
-            <button mat-icon-button color="primary"
-                (click)="onClickedAddedCheckboxSourceFilter()">
-                 +
-             </button>
-            <button mat-icon-button color="warn"
-                (click)="onClickedClearedCheckboxSourceFilter()">
-                 -
-             </button>
-        </div>
-            
         <div class="tableLegend">
-            <button mat-raised-button color="primary"
-                    (click)="onClickedShowHiddenTableLegend()"> Table legend 
+            <button mat-raised-button color="primary" (click)="onClickedShowHiddenTableLegend()"> Описание таблицы
             </button>
 
             <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
@@ -96,18 +57,18 @@
             <ng-template #showLegend>
                 <div>
                     <ul class="list">
-                        <li class="item"><span class="dot darkRed"></span>Multiple versions. Not latest by the highest number in version.</li>
-                        <li class="item"><span class="dot red"></span>Multiple versions. Not latest by medium number in version.</li>
-                        <li class="item"><span class="dot lightRed"></span>Multiple versions. Not latest by the smallest number in version.</li>
-                        <li class="item"><span class="dot darkOrange"></span>Alone versions. Not latest by the highest number in version.</li>
-                        <li class="item"><span class="dot orange"></span>Alone versions. Not latest by medium number in version.</li>
-                        <li class="item"><span class="dot lightOrange"></span>Alone versions. Not latest by the smallest number in version.</li>
+                        <li class="item"><span class="dot darkRed"></span>Различие в несколько версий. Не последняя по первому числу в версии</li>
+                        <li class="item"><span class="dot red"></span>Различие в несколько версий. Не последняя по среднему числу в версии</li>
+                        <li class="item"><span class="dot lightRed"></span>Различие в несколько версий. Не последняя по последнему числу в версии</li>
+                        <li class="item"><span class="dot darkOrange"></span>Однинаковые версии. Не последняя по первому числу в версии</li>
+                        <li class="item"><span class="dot orange"></span>Однинаковые версии. Не последняя по среднему числу в версии</li>
+                        <li class="item"><span class="dot lightOrange"></span>Однинаковые версии. Не последняя по последнему числу в версии</li>
                     </ul>
                 </div>
             </ng-template>
             <ng-template #hiddenLegend>
                 <div>
-                    <p>Please click on "Table legend" button for showing/hidden table legend.</p>
+                    <p>Пожалуйста, нажмите на кнопку «Описание таблицы» для отображения / скрытия легенды таблицы</p>
                 </div>
             </ng-template>
 
@@ -133,10 +94,10 @@
                         <ng-container>
                             <!-- Первая строка: dendency, первая version, первая library для первой version -->
                             <tr>
-                                <td [attr.class]="getCss(items)"
-                                    [attr.rowspan]="items.depsLength">{{ items.libDep }}</td>
-                                <td [attr.class]="getCss(items)"
-                                    [attr.rowspan]="items.dep[0].libs.length">{{ items.dep[0].v }}</td>
+                                <td [attr.class]="getCss(items)" [attr.rowspan]="items.depsLength">{{ items.libDep }}
+                                </td>
+                                <td [attr.class]="getCss(items)" [attr.rowspan]="items.dep[0].libs.length">
+                                    {{ items.dep[0].v }}</td>
                                 <td [attr.class]="getCss(items)">{{ items.dep[0].libs[0] }}</td>
                             </tr>
                             <!-- вторая строка: не первая version -->
@@ -148,8 +109,7 @@
 
                             <ng-container *ngFor="let item of items.dep; first as isFirst">
                                 <tr *ngIf="!isFirst">
-                                    <td [attr.class]="getCss(items)"
-                                        [attr.rowspan]="item.libs.length">{{ item.v }}</td>
+                                    <td [attr.class]="getCss(items)" [attr.rowspan]="item.libs.length">{{ item.v }}</td>
                                     <td [attr.class]="getCss(items)">{{ item.libs[0] }}</td>
 
                                 </tr>

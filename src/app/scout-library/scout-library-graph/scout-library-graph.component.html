@@ -5,7 +5,7 @@
         <div class="select-block">
             <mat-form-field>
 
-                <mat-label>Select an option</mat-label>
+                <mat-label>Выберите библиотеку</mat-label>
                 <mat-select 
                 [(ngModel)]="selectedValue"
                 (selectionChange)="onSetNodes($event)" multiple>
@@ -14,7 +14,7 @@
                     </mat-option>
                 </mat-select>
               </mat-form-field>
-              <p>You selected: {{ selectedValue }}</p>
+              <p>Вы выбрали: {{ selectedValue }}</p>
         </div>
         
         <div class="example-button-row">

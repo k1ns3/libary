@@ -3,7 +3,7 @@
         <div class="top">
             <div class="filter">
                 <div class="header">
-                    <p>Filters by source:</p>
+                    <p>Фильтровать по:</p>
                 </div>
                 <div class="example-button-row">
 
@@ -37,20 +37,20 @@
                 </div>
             <div class="searchPanel">
                 <div class="header">
-                    <p>Searching by:</p>
+                    <p>Поиск:</p>
                 </div>
                 <div class="searchForm">
 
                     <mat-form-field class="example-full-width">
                         <input matInput
-                            placeholder="Dependency Library"
+                            placeholder="Библиотека"
                             formControlName="SearchDepInput"
                             (input)="onChangedSearchDepInput($event.target.value)" >
                     </mat-form-field>
 
                     <mat-form-field class="example-full-width">
                         <input matInput
-                            placeholder="Project"
+                            placeholder="По проекту"
                             formControlName="SearchProjectInput"
                             (input)="onChangedSearchProjectInput($event.target.value)" >
                     </mat-form-field>
@@ -63,7 +63,7 @@
     </div>
     <div class="tableLegend">
         <button mat-raised-button color="primary"
-                (click)="onClickedShowHiddenTableLegend()"> Table legend </button>
+                (click)="onClickedShowHiddenTableLegend()"> Описание таблицы </button>
                 
 
         <ng-container *ngIf="f.ShowTableLegend.value; then showLegend; else hiddenLegend"></ng-container>
@@ -71,15 +71,15 @@
         <ng-template #showLegend>
             <div>
                 <ul class="list">
-                    <li class="item"><span class="dot darkRed"></span>Not latest by the highest number in version.</li>
-                    <li class="item"><span class="dot red"></span>Not latest by medium number in version.</li>
-                    <li class="item"><span class="dot lightRed"></span>Not latest by the smallest number in version.</li>
+                    <li class="item"><span class="dot darkRed"></span>Не последняя, по первому числу в версии</li>
+                    <li class="item"><span class="dot red"></span>Не последняя, по среднему числу в версии</li>
+                    <li class="item"><span class="dot lightRed"></span>Не последняя, по последнему количеству в версии</li>
                 </ul>
             </div>
         </ng-template>
         <ng-template #hiddenLegend>
             <div>
-                <p>Please click on "Table legend" button for showing/hidden table legend.</p>
+                <p>Пожалуйста, нажмите на кнопку «Описание таблицы» для отображения / скрытия легенды таблицы</p>
             </div>
         </ng-template>
     </div>
@@ -89,10 +89,10 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Project</th>
-                <th>Dependency library</th>
-                <th>Using version</th>
-                <th>Latest version</th>
+                <th>Проект</th>
+                <th>Зависимая библиотека</th>
+                <th>Используемая версия</th>
+                <th>Последняя версия</th>
             </tr>
         </thead>
 
