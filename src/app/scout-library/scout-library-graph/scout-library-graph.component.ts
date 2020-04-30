@@ -9,7 +9,7 @@ import * as shape from 'd3-shape';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/root-store/root.store';
 import { GetData } from 'src/app/root-store/actions/data.actions';
-import { getGraphNodesData, getGraphLinksData, getOptions, selectedGraph } from 'src/app/root-store/selectors/grafh.selectors';
+import { getGraphNodesData, getGraphLinksData, getOptions } from 'src/app/root-store/selectors/grafh.selectors';
 import { SelectedGraph } from 'src/app/root-store/actions/graph.actions';
 
 
@@ -74,6 +74,7 @@ export class ScoutLibraryGraphComponent implements OnInit, OnDestroy {
             .subscribe(optionsList => this._graphOptions = optionsList);
 
         this.initData();
+        console.log(this.graphLinksData)
     }
 
     ngOnDestroy() {

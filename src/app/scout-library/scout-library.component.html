@@ -1,5 +1,5 @@
-<div id="panel">
-    <a id="logout_link" (click)="logOut()" [routerLink]="['/login']">Logout</a>
+<!-- <div id="panel">
+    
 </div>
 <div id="routing">
     <nav>
@@ -8,4 +8,29 @@
         <a class="routing_link" routerLink="/dependencies" routerLinkActive="active">Dependency Table</a>
     </nav>
     <router-outlet></router-outlet>
+</div> -->
+<div id="routing">
+    <button mat-raised-button [matMenuTriggerFor]="menu" color="link">
+        <mat-icon>menu</mat-icon>
+        <span>Menu</span>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/graph" routerLinkActive="active">
+            <mat-icon>timeline</mat-icon>
+            <span>Graph</span>
+        </button>
+        <button mat-menu-item routerLink="/projects" routerLinkActive="active">
+            <mat-icon>table_chart</mat-icon>
+            <span>Project Table</span>
+        </button>
+        <button mat-menu-item routerLink="/dependencies" routerLinkActive="active">
+            <mat-icon>table_chart</mat-icon>
+            <span>Dependency Table</span>
+        </button>
+        <button mat-menu-item id="logout_link" (click)="logOut()" [routerLink]="['/login']">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Logout</span>
+        </button>
+    </mat-menu>
 </div>
+<router-outlet></router-outlet>
