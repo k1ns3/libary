@@ -14,13 +14,6 @@ import { AppState } from 'src/app/root-store/root.store';
 import { selectNPMСheckbox, selectNPMScoutСheckbox, selectGitLabСheckbox } from 'src/app/root-store/selectors/project.table.selectors';
 import { SearchDepInputProjectAction, SearchProjectInputProjectAction } from '../../root-store/actions/project.table.actions';
 
-export interface PeriodicElement {
-    name: string;
-    position: number;
-    weight: number;
-    symbol: string;
-  }
-
 @Component({
     selector: 'app-scout-library-table',
     templateUrl: './scout-library-table.component.html',
@@ -38,15 +31,12 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
 
     dataTables$: Observable<any>;
     projectTableForm: FormGroup;
-    public dataSourceTable : object[];
+    public dataSourceTable: object[];
     public sourceDataSourceTable: any;
 
     get isPackages(): boolean {
         return !!(this.dataSourceTable);
     }
-
-    displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-    dataSource = this.dataSourceTable;
 
     constructor(
         private readonly _store: Store<AppState>,
@@ -74,7 +64,7 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
                     this.projectTableForm.setValue(projectTable);
                 }
             );
-            
+
         this.subscriberonCombinedSourceFilter$ =
             combineLatest(
                 this._store.pipe(
@@ -169,16 +159,16 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
         this._store.dispatch({ type: actions.SHOW_TABLE_LEGEND_PROJECT });
     }
 
-    private initData(){
+    private initData() {
         combineLatest(this.dataTables$)
             .pipe(takeUntil(this._destroy$))
             .subscribe(([dataSourceTable]) => {
                 console.log(dataSourceTable);
-                    console.log(`new Data`);
-                    if(dataSourceTable) {
-                        this.sourceDataSourceTable = dataSourceTable;
-                        this.dataSourceTable =  this.sourceDataSourceTable;
-                    }
+                console.log(`new Data`);
+                if (dataSourceTable) {
+                    this.sourceDataSourceTable = dataSourceTable;
+                    this.dataSourceTable = this.sourceDataSourceTable;
+                }
             });
     }
 

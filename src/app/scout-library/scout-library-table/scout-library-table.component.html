@@ -74,7 +74,7 @@
 </form>
 
 <div class="dataTable">
-    <!-- <table class="table table-striped">
+    <table class="table table-striped">
         <thead>
             <tr>
                 <th>Проект</th>
@@ -96,30 +96,5 @@
                 </ng-container>
             </ng-container>
         </tbody>
-    </table> -->
-    <table mat-table [dataSource]="dataSourceTable" class="mat-elevation-z8" multiTemplateDataRows>
-
-        <ng-container matColumnDef="position">
-            <th mat-header-cell *matHeaderCellDef> Проект </th>
-            <td mat-cell *matCellDef="let element"> {{element.lib}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Зависимая библиотека </th>
-            <td mat-cell *matCellDef="let element"> {{element.depLib}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="weight">
-            <th mat-header-cell *matHeaderCellDef> Используемая версия </th>
-            <td mat-cell *matCellDef="let element"> {{element.useVersion}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef> Последняя версия </th>
-            <td mat-cell *matCellDef="let element"> {{element.actualVersion}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 </div>
