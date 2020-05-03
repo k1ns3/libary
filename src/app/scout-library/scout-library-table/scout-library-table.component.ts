@@ -31,6 +31,12 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
 
     dataTables$: Observable<any>;
     projectTableForm: FormGroup;
+    public dataSourceTable: object[];
+    public sourceDataSourceTable: any;
+
+    get isPackages(): boolean {
+        return !!(this.dataSourceTable);
+    }
 
     constructor(
         private readonly _store: Store<AppState>,
@@ -58,7 +64,7 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
                     this.projectTableForm.setValue(projectTable);
                 }
             );
-            
+
         this.subscriberonCombinedSourceFilter$ =
             combineLatest(
                 this._store.pipe(
@@ -85,6 +91,7 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
         this.dataTables$ = this._store.pipe(
             select(createdDataProjectTable)
         );
+        this.initData();
     }
 
     ngOnDestroy() {
@@ -151,4 +158,18 @@ export class ScoutLibraryTableComponent implements OnInit, OnDestroy {
     onClickedShowHiddenTableLegend() {
         this._store.dispatch({ type: actions.SHOW_TABLE_LEGEND_PROJECT });
     }
+
+    private initData() {
+        combineLatest(this.dataTables$)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe(([dataSourceTable]) => {
+                console.log(dataSourceTable);
+                console.log(`new Data`);
+                if (dataSourceTable) {
+                    this.sourceDataSourceTable = dataSourceTable;
+                    this.dataSourceTable = this.sourceDataSourceTable;
+                }
+            });
+    }
+
 }

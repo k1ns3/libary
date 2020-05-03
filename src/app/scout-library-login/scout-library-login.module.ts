@@ -8,7 +8,9 @@ import {
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    MatButtonModule
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatNativeDateModule
 } from '@angular/material';
 
 
@@ -20,7 +22,9 @@ import {
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
-        MatButtonModule
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatNativeDateModule
     ],
     declarations: [
         ScoutLibraryLoginComponent,

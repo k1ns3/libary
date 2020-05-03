@@ -83,6 +83,7 @@ export class ScoutLibraryLoginComponent implements OnInit, OnDestroy {
             dateTokenGitlab: this.formComtrols.dateTokenGitlab.value || '',
             returnUrl: this._returnUrl
         }));
+        console.log(this.formComtrols.dateTokenGitlab.value)
     }
 
     private setAuthForm(): TypedControlsConfig<User> {

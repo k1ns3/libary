@@ -5,7 +5,7 @@
         <div class="select-block">
             <mat-form-field>
 
-                <mat-label>Select an option</mat-label>
+                <mat-label>Выберите библиотеку</mat-label>
                 <mat-select 
                 [(ngModel)]="selectedValue"
                 (selectionChange)="onSetNodes($event)" multiple>
@@ -14,7 +14,7 @@
                     </mat-option>
                 </mat-select>
               </mat-form-field>
-              <p>You selected: {{ selectedValue }}</p>
+              <p>Вы выбрали: {{ selectedValue }}</p>
         </div>
         
         <div class="example-button-row">
@@ -75,7 +75,7 @@
                         </svg:path>
                         <svg:text class = "edge-label"
                                   text-anchor = "middle">
-                            <textPath style = "fill: #666; font-size: 18px; dominant-baseline: text-after-edge;"
+                            <textPath style = "fill: #black; font-size: 18px; dominant-baseline: text-after-edge;"
                                       [attr.href] = "'#' + link.id"
                                       startOffset = "65%">
                                 {{link.label}}

@@ -1,11 +1,25 @@
-<div id="panel">
-    <a id="logout_link" (click)="logOut()" [routerLink]="['/login']">Logout</a>
-</div>
 <div id="routing">
-    <nav>
-        <a class="routing_link" routerLink="/graph" routerLinkActive="active">Graph</a>
-        <a class="routing_link" routerLink="/projects" routerLinkActive="active">Project Table</a>
-        <a class="routing_link" routerLink="/dependencies" routerLinkActive="active">Dependency Table</a>
-    </nav>
-    <router-outlet></router-outlet>
+    <button mat-raised-button [matMenuTriggerFor]="menu" color="link">
+        <mat-icon>menu</mat-icon>
+        <span>Меню проекта</span>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/graph" routerLinkActive="active">
+            <mat-icon>timeline</mat-icon>
+            <span>Графы</span>
+        </button>
+        <button mat-menu-item routerLink="/projects" routerLinkActive="active">
+            <mat-icon>table_chart</mat-icon>
+            <span>Таблица проектов</span>
+        </button>
+        <button mat-menu-item routerLink="/dependencies" routerLinkActive="active">
+            <mat-icon>view_list</mat-icon>
+            <span>Таблица зависимостей</span>
+        </button>
+        <button mat-menu-item id="logout_link" (click)="logOut()" [routerLink]="['/login']">
+            <mat-icon>exit_to_app</mat-icon>
+            <span>Выход</span>
+        </button>
+    </mat-menu>
 </div>
+<router-outlet></router-outlet>

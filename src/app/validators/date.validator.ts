@@ -1,7 +1,8 @@
 import { AbstractControl } from '@angular/forms';
 
 export function ValidateDate(control: AbstractControl) {
-    if (control.value < new Date().toISOString()) {
+    let selectDate = control.value;
+    if (selectDate < new Date().toISOString()) {
         return { validDate: true };
     }
     return null;
