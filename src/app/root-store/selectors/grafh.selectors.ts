@@ -1,13 +1,13 @@
 import { AppState } from '../root.store';
 import { createSelector } from '@ngrx/store';
 import { getNpmData } from './data.selectors';
-import { graphData } from '../state/graph.models';
+import { GraphData } from '../state/graph.models';
 
 export const selectFeature = (state: AppState) => state.app.graph;
 
 export const selectedGraph = createSelector(
     selectFeature,
-    (state: graphData) => state.selectGraph
+    (state: GraphData) => state.selectGraph
 );
 
 export const getOptions = createSelector(

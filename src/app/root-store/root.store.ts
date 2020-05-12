@@ -4,7 +4,7 @@ import { ProjectStore } from './state/project.table.model';
 import { DepStore } from './state/dep.table.model';
 import { User } from './state/user.model';
 import { Data } from './state/data.model';
-import { graphData } from './state/graph.models';
+import { GraphData } from './state/graph.models';
 
 import { reducer as authReducer } from './reducers/auth.reducers';
 import { dataReducer } from './reducers/data.reducers';
@@ -21,7 +21,7 @@ export interface AppState {
         auth: User;
         data: Data;
         depTablesForm: DepStore;
-        graph: graphData;
+        graph: GraphData;
     };
 }
 
@@ -31,7 +31,7 @@ export interface AppStateJson {
         auth: User;
         data: Data;
         depTablesForm: DepStore;
-        graph: graphData;
+        graph: GraphData;
     };
 }
 

@@ -1,8 +1,8 @@
 import * as actions from '../actions/graph.actions';
 
-import { graphData } from '../state/graph.models';
+import { GraphData } from '../state/graph.models';
 
-export const initialFormState: graphData = {
+export const initialFormState: GraphData = {
     selectGraph: []
 };
 
