@@ -5,7 +5,7 @@ import { MatButtonModule, MatSelectModule } from '@angular/material';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { ScoutLibraryGraphComponent} from './scout-library-graph.component';
+import { ScoutLibraryGraphComponent } from './scout-library-graph.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatSelectModule,
     FormsModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule
   ],
   declarations: [
     ScoutLibraryGraphComponent

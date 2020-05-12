@@ -8,6 +8,5 @@ export class SelectedGraph implements Action {
     constructor(public _payload: string[]) { }
 }
 
-
 export declare type Actions =
-    | SelectedGraph
+    | SelectedGraph;

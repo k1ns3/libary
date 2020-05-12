@@ -1,23 +1,23 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule, ErrorHandler } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ServiceWorkerModule } from "@angular/service-worker";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule, ErrorHandler } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { StoreModule } from "@ngrx/store";
-import { EffectsModule } from "@ngrx/effects";
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { AppRoutingModule } from "./app-routing.module";
-import { ScoutLibraryLoginModule } from "./scout-library-login/scout-library-login.module";
+import { AppRoutingModule } from './app-routing.module';
+import { ScoutLibraryLoginModule } from './scout-library-login/scout-library-login.module';
 
-import { AppComponent, AppErrorHandler } from "./app.component";
+import { AppComponent, AppErrorHandler } from './app.component';
 
-import { AuthEffects } from "./root-store/effects/auth.effects";
-import { reducers, metaReducers } from "./root-store/root.store";
-import { DataEffects } from "./root-store/effects/data.effects";
+import { AuthEffects } from './root-store/effects/auth.effects';
+import { reducers, metaReducers } from './root-store/root.store';
+import { DataEffects } from './root-store/effects/data.effects';
 
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +27,7 @@ import { environment } from "../environments/environment";
     HttpClientModule,
     AppRoutingModule,
     ScoutLibraryLoginModule,
-    ServiceWorkerModule.register("/ngsw-worker.js", {
+    ServiceWorkerModule.register('/ngsw-worker.js', {
       enabled: environment.production
     }),
     StoreModule.forRoot(reducers, {
@@ -42,4 +42,4 @@ import { environment } from "../environments/environment";
   providers: [{ provide: ErrorHandler, useClass: AppErrorHandler }],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

@@ -26,6 +26,6 @@ describe('ScoutLibraryTableDeplibComponent', () => {
   });
 
   it('should create', () => {
-    expect(component)
+    expect(component);
   });
 });

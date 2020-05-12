@@ -17,13 +17,13 @@ export class AuthGuard implements CanActivate {
         private readonly _router: Router
     ) { }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) : Observable<boolean> {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this._store
             .select(getNpmData)
             .pipe(map(npmAuthData => this.handlingNpmAuthData(npmAuthData.npmAccessToken, npmAuthData.date, state.url)));
     }
 
-    private handlingNpmAuthData(npmToken: string, npmTokenDate: number, returnUrl: string ): boolean {
+    private handlingNpmAuthData(npmToken: string, npmTokenDate: number, returnUrl: string): boolean {
         if (npmToken && Date.now() < npmTokenDate) {
             return true;
         }

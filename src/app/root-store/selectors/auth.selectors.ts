@@ -16,7 +16,7 @@ export const getNpmToken = createSelector(
 
 export const getNpmData = createSelector(
     selectFeature,
-    (state: User) => ({npmAccessToken: state.token, date: state.dateNPMToken}) 
+    (state: User) => ({ npmAccessToken: state.token, date: state.dateNPMToken })
 );
 
 export const getGitlabToken = createSelector(

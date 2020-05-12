@@ -63,7 +63,7 @@ const serializators: StateSerializatorsMap<AppState, AppStateJson> = {
         },
         data: dataSets => dataSets,
         depTablesForm: depTablesFormData => depTablesFormData,
-        graph: graphdata => graphdata  
+        graph: graphdata => graphdata
     })
 };
 
@@ -73,7 +73,7 @@ const deserializators: StateSerializatorsMap<AppStateJson, AppState> = {
         auth: authData => authData,
         data: dataSets => dataSets,
         depTablesForm: depTablesFormData => depTablesFormData,
-        graph: graphdata => graphdata  
+        graph: graphdata => graphdata
     })
 };
 

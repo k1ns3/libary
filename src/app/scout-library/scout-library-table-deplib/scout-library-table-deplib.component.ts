@@ -119,7 +119,7 @@ export class ScoutLibraryTableDeplibComponent implements OnInit, OnDestroy {
         );
         this._store.dispatch(new GetData());
     }
-    
+
     ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();

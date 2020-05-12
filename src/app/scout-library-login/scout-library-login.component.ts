@@ -30,8 +30,8 @@ export class ScoutLibraryLoginComponent implements OnInit, OnDestroy {
     loginForm: FormGroup;
     loading = false;
 
-    get formComtrols(): {[key: string]: AbstractControl;} {
-         return this.loginForm && this.loginForm.controls; 
+    get formComtrols(): { [key: string]: AbstractControl; } {
+        return this.loginForm && this.loginForm.controls;
     }
 
     get errorMessage(): string {
@@ -65,7 +65,7 @@ export class ScoutLibraryLoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this._returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/'; //????
+        this._returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     }
 
     ngOnDestroy() {
@@ -83,7 +83,7 @@ export class ScoutLibraryLoginComponent implements OnInit, OnDestroy {
             dateTokenGitlab: this.formComtrols.dateTokenGitlab.value || '',
             returnUrl: this._returnUrl
         }));
-        console.log(this.formComtrols.dateTokenGitlab.value)
+        console.log(this.formComtrols.dateTokenGitlab.value);
     }
 
     private setAuthForm(): TypedControlsConfig<User> {
