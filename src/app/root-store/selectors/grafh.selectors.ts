@@ -18,6 +18,7 @@ export const getOptions = createSelector(
 export const getGraphNodesData = createSelector(
     getNpmData,
     selectedGraph,
+    // tslint:disable-next-line:no-shadowed-variable
     (dataset1: Array<Object>, selectedGraph: string[]) => {
         return createNodes(dataset1, selectedGraph);
     }
@@ -26,6 +27,7 @@ export const getGraphNodesData = createSelector(
 export const getGraphLinksData = createSelector(
     getNpmData,
     selectedGraph,
+    // tslint:disable-next-line:no-shadowed-variable
     (dataset1: Array<Object>, selectedGraph: string[]) => {
         return createLinks(dataset1, selectedGraph);
     }
