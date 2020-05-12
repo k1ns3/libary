@@ -1,6 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  MatDatepickerModule,
+  MatFormFieldModule,
+  MatSelectModule,
+  MatInputModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatNativeDateModule
+} from '@angular/material';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { ScoutLibraryLoginComponent } from './scout-library-login.component';
+
 
 describe('ScoutLibraryLoginComponent', () => {
   let component: ScoutLibraryLoginComponent;
@@ -8,9 +20,19 @@ describe('ScoutLibraryLoginComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScoutLibraryLoginComponent ]
-    })
-    .compileComponents();
+      imports: [
+        ReactiveFormsModule,
+        CommonModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatNativeDateModule,
+      ],
+      declarations: [ScoutLibraryLoginComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
